@@ -12,30 +12,28 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class Padoru extends BaseHero implements Attackable {
+    private Timeline checking;
     public Padoru() {
-        super(10, 10, 100, 10, 10, "Padoru", 1.5, "padoru.gif");
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> {
-            checkEnemy();
+        super(10, 10, 100, 40, 10, "Padoru", 1.5, "padoru.gif");
+        checking = new Timeline(new KeyFrame(Duration.millis(100), e -> {
+            check();
         }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        checking.setCycleCount(Timeline.INDEFINITE);
+        checking.play();
     }
 
-    public void checkEnemy() {
-        BaseEnemy enemy = GameController.getInstance().getEnemies().get(0);
-        if(GameUtils.inRange(this, enemy)) {
-            System.out.println(enemy.getImageView().getTranslateX());
+    @Override
+    public void check() {
+        if(GameUtils.inRange(this, GameController.selectedEnemy)) {
+            System.out.println(GameController.selectedEnemy.getImageView().getTranslateX());
             System.out.println(getImageView().getTranslateX());
             stopMoving();
-            Rectangle sword = new Rectangle(20, 100);
-            sword.setTranslateX(getImageView().getTranslateX()+50);
-            sword.setTranslateY(getImageView().getTranslateY()+20);
-            GameController.getInstance().getGameMap().getChildren().add(sword);
+            attack();
         }
     }
 
     @Override
     public void attack() {
-
+        
     }
 }

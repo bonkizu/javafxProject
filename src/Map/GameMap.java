@@ -1,8 +1,10 @@
 package Map;
 
 import Unit.Enemy.BaseEnemy;
+import Unit.Enemy.EnemyTower;
 import Unit.Enemy.Wg;
 import Unit.Hero.BaseHero;
+import Unit.Hero.HeroTower;
 import Unit.Hero.Padoru;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,24 +14,20 @@ public class GameMap extends GridPane {
     public GameMap() {
         setPrefHeight(720);
         setPrefWidth(2000);
-        createHeroBase();
-        createEnemyBase();
     }
 
-    private void createHeroBase() {
-        ImageView base = new ImageView(new Image("base.png"));
-        base.setFitWidth(300);
-        base.setPreserveRatio(true);
-        base.setTranslateY(400);
-        getChildren().add(base);
+    public HeroTower createHeroTower() {
+        HeroTower tower = new HeroTower();
+        tower.getImageView().setTranslateY(400);
+        getChildren().add(tower.getImageView());
+        return tower;
     }
 
-    private void createEnemyBase() {
-        ImageView base = new ImageView(new Image("base.png"));
-        base.setFitWidth(300);
-        base.setPreserveRatio(true);
-        base.setTranslateY(400);
-        base.setTranslateX(1700);
-        getChildren().add(base);
+    public EnemyTower createEnemyTower() {
+        EnemyTower tower = new EnemyTower();
+        tower.getImageView().setTranslateY(400);
+        tower.getImageView().setTranslateX(1700);
+        getChildren().add(tower.getImageView());
+        return tower;
     }
 }

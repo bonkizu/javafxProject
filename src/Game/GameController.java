@@ -18,11 +18,42 @@ public class GameController {
     private final GameMap gameMap;
     private final ArrayList<BaseEnemy> enemies = new ArrayList<>();
     private final ArrayList<BaseHero> heroes = new ArrayList<>();
+    public static BaseHero selectedHero;
+    public static BaseEnemy selectedEnemy;
+    private Timeline checkingHeroAndEnemy;
 
     public GameController() {
         gameGui = new GameGui();
         gameMap = gameGui.getGameMap();
+        heroes.add(gameMap.createHeroTower());
+        enemies.add(gameMap.createEnemyTower());
+        selectedHero = heroes.get(0);
+        selectedEnemy = enemies.get(0);
         startEnemySpawn();
+        checkHeroAndEnemy();
+    }
+
+    private void checkHeroAndEnemy() {
+        Duration duration = Duration.millis(100); // Set the duration to 100 milliseconds
+        Timeline timelineHero = new Timeline(new KeyFrame(duration, event -> {
+            for (BaseHero hero : heroes) {
+                if (selectedHero.getImageView().getTranslateX() - hero.getImageView().getTranslateX() < 0) {
+                    selectedHero = hero;
+                }
+            }
+        }));
+        timelineHero.setCycleCount(Timeline.INDEFINITE);
+        timelineHero.play();
+
+        Timeline timelineEnemy = new Timeline(new KeyFrame(duration, event -> {
+            for (BaseEnemy enemy : enemies) {
+                if (selectedEnemy.getImageView().getTranslateX() - enemy.getImageView().getTranslateX() > 0) {
+                    selectedEnemy = enemy;
+                }
+            }
+        }));
+        timelineEnemy.setCycleCount(Timeline.INDEFINITE);
+        timelineEnemy.play();
     }
 
     public GameGui getGameGui() {
