@@ -13,7 +13,7 @@ import javafx.util.Duration;
 public abstract class BaseHero extends BaseUnit {
     protected Timeline checking;
 
-    protected Thread attacking;
+    protected Timeline attacking;
     protected boolean hasTarget = false;
 
     protected Timeline moving;
@@ -23,22 +23,24 @@ public abstract class BaseHero extends BaseUnit {
         move();
     }
     protected void initializeChecking() {
-        checking = new Timeline(new KeyFrame(Duration.millis(100), e -> {
+        checking = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             if(getHp() <= 0) {
                 if(attacking != null) {
-                    attacking.interrupt();
+                    attacking.stop();
                 }
                 stopMoving();
                 hasTarget = false;
                 checking.stop();
                 destroyed();
             }
+            System.out.println(hasTarget);
             if(!hasTarget) {
                 for(BaseEnemy enemy : GameController.getInstance().getEnemies()) {
                     if (GameUtils.inRange(this, enemy)) {
                         stopMoving();
                         hasTarget = true;
                         attack(enemy);
+                        break;
                     }
                 }
             }
