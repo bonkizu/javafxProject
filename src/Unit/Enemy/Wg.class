@@ -28,8 +28,9 @@ public class Wg extends BaseEnemy {
         mediaPlayer = new AudioClip(sound.getSource());
         mediaPlayer.play();
     }
+}
 
-    @Override
+
     public void attack(BaseUnit target) {
         if(target instanceof BaseHero hero) {
             attacking = new Timeline(new KeyFrame(Duration.millis(100), e-> {
@@ -45,9 +46,6 @@ public class Wg extends BaseEnemy {
             }));
             attacking.setCycleCount(Animation.INDEFINITE);
             attacking.play();
-        }
-
     }
+
 }
-
-
