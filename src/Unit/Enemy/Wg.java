@@ -17,7 +17,6 @@ public class Wg extends BaseEnemy implements Attackable {
         super.initializeChecking();
     }
 
-
     @Override
     public void attack(BaseUnit target) {
         if(target instanceof BaseHero hero) {
@@ -25,12 +24,14 @@ public class Wg extends BaseEnemy implements Attackable {
                 while (target.getHp() > 0) {
                     target.setHp(target.getHp() - getAttack());
                     try {
-                        System.out.println(target.getHp());
-                        Thread.sleep(10);
+                        System.out.println(target.getHp() + target.getName());
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                System.out.println(GameController.getInstance().getHeroes().size());
+                System.out.println("ต้อง move");
                 hasTarget = false;
                 move();
             });
@@ -38,8 +39,4 @@ public class Wg extends BaseEnemy implements Attackable {
         attacking.start();
     }
 
-    public void destroyed() {
-        GameController.getInstance().getEnemies().remove(this);
-        GameController.getInstance().getGameMap().getChildren().remove(getImageView());
-    }
 }

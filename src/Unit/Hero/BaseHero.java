@@ -22,7 +22,7 @@ public abstract class BaseHero extends BaseUnit {
         setMoving(getSpeed());
         move();
     }
-    private void initializeChecking() {
+    protected void initializeChecking() {
         checking = new Timeline(new KeyFrame(Duration.millis(100), e -> {
             if(getHp() <= 0) {
                 if(attacking != null) {

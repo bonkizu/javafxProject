@@ -20,39 +20,8 @@ public class Padoru extends BaseHero {
 
     public Padoru() {
         super(0, 10, 100, 40, 10, "Padoru", 1.5, "padoru.gif");
-        initializeChecking();
+        super.initializeChecking();
     }
-
-    private void initializeChecking() {
-        checking = new Timeline(new KeyFrame(Duration.millis(100), e -> {
-            if(getHp() <= 0) {
-                if(attacking != null) {
-                    attacking.interrupt();
-                }
-                stopMoving();
-                hasTarget = false;
-                checking.stop();
-                destroyed();
-            }
-            if(!hasTarget) {
-                for(BaseEnemy enemy : GameController.getInstance().getEnemies()) {
-                    if (GameUtils.inRange(this, enemy)) {
-                        stopMoving();
-                        hasTarget = true;
-                        attack(enemy);
-                    }
-                }
-            }
-        }));
-        checking.setCycleCount(Timeline.INDEFINITE);
-        checking.play();
-    }
-
-    private void destroyed() {
-        GameController.getInstance().getEnemies().remove(this);
-        GameController.getInstance().getGameMap().getChildren().remove(getImageView());
-    }
-
     @Override
     public void attack(BaseUnit target) {
         if(target instanceof BaseEnemy enemy) {
@@ -60,8 +29,8 @@ public class Padoru extends BaseHero {
                 while (target.getHp() > 0) {
                     target.setHp(target.getHp() - getAttack());
                     try {
-                        System.out.println(target.getHp());
-                        Thread.sleep(10);
+//                        System.out.println(target.getHp());
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
