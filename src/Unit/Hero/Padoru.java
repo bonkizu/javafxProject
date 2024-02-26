@@ -12,14 +12,14 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class Padoru extends BaseHero implements Attackable {
+public class Padoru extends BaseHero {
 
     private Timeline checking;
     private boolean hasTarget = false;
     private Thread attacking;
 
     public Padoru() {
-        super(10, 10, 100, 40, 10, "Padoru", 1.5, "padoru.gif");
+        super(0, 10, 100, 40, 10, "Padoru", 1.5, "padoru.gif");
         initializeChecking();
     }
 
@@ -54,11 +54,6 @@ public class Padoru extends BaseHero implements Attackable {
     }
 
     @Override
-    public void check() {
-        checking.play();
-    }
-
-    @Override
     public void attack(BaseUnit target) {
         if(target instanceof BaseEnemy enemy) {
             attacking = new Thread(() -> {
@@ -66,7 +61,7 @@ public class Padoru extends BaseHero implements Attackable {
                     target.setHp(target.getHp() - getAttack());
                     try {
                         System.out.println(target.getHp());
-                        Thread.sleep(100);
+                        Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
