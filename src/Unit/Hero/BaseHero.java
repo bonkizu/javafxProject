@@ -32,4 +32,5 @@ public class BaseHero extends BaseUnit {
     public void stopMoving() {
         moving.stop();
     }
+
 }

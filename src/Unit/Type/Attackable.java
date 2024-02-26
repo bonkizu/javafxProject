@@ -1,7 +1,9 @@
 package Unit.Type;
 
+import Unit.BaseUnit;
+
 public interface Attackable {
 
-    void attack();
+    void attack(BaseUnit target);
     void check();
 }

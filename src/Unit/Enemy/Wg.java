@@ -1,6 +1,8 @@
 package Unit.Enemy;
 
 import Game.GameController;
+import Unit.BaseUnit;
+import Unit.Hero.BaseHero;
 import Unit.Type.Attackable;
 import Utils.GameUtils;
 import javafx.animation.KeyFrame;
@@ -13,25 +15,16 @@ public class Wg extends BaseEnemy implements Attackable {
     public Wg() {
         super(10, 10, 100, 50, 10, "Ui", 1.5, "wg.gif");
 
-        checking = new Timeline(new KeyFrame(Duration.millis(100), e -> {
-            check();
-        }));
-        checking.setCycleCount(Timeline.INDEFINITE);
-        checking.play();
     }
     @Override
     public void check() {
-        if(GameUtils.inRange(this, GameController.selectedHero)) {
-            System.out.println(GameController.selectedEnemy.getImageView().getTranslateX());
-            System.out.println(getImageView().getTranslateX());
-            stopMoving();
-            attack();
-            checking.stop();
-        }
+
     }
 
     @Override
-    public void attack() {
+    public void attack(BaseUnit target) {
+        if(target instanceof BaseHero hero) {
 
+        }
     }
 }
