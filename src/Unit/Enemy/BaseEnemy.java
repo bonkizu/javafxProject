@@ -12,12 +12,13 @@ import javafx.util.Duration;
 
 public abstract class BaseEnemy extends BaseUnit implements Attackable {
     protected Timeline moving;
-    protected Thread attacking;
+    protected Timeline attacking;
     protected Timeline checking;
     protected boolean hasTarget = false;
     public BaseEnemy(int attack, int defense, int hp, int speed, int attackSpeed, String name, double range, String imageUrl) {
         super(attack, defense, hp, speed, attackSpeed, name, range, imageUrl);
         setMoving(getSpeed());
+        initializeChecking();
         move();
     }
 
@@ -30,10 +31,10 @@ public abstract class BaseEnemy extends BaseUnit implements Attackable {
     }
 
     protected void initializeChecking() {
-        checking = new Timeline(new KeyFrame(Duration.millis(100), e -> {
+        checking = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             if(getHp() <= 0) {
                 if(attacking != null) {
-                    attacking.interrupt();
+                    attacking.stop();
                 }
                 stopMoving();
                 hasTarget = false;
@@ -46,6 +47,7 @@ public abstract class BaseEnemy extends BaseUnit implements Attackable {
                         stopMoving();
                         hasTarget = true;
                         attack(hero);
+                        break;
                     }
                 }
             }

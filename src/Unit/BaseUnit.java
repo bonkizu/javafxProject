@@ -29,6 +29,10 @@ public abstract class BaseUnit {
         getImageView().setPreserveRatio(true);
     }
 
+
+
+
+
     protected abstract void setMoving(int speed);
     public abstract void move();
     public abstract void stopMoving();
