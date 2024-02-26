@@ -22,7 +22,7 @@ public class Wg extends BaseEnemy {
     }
 
     public void initializeSound() {
-        String path = ClassLoader.getSystemResource("zombie.mp3").toString();
+        String path = ClassLoader.getSystemResource("rbds.mp3").toString();
         Media sound = new Media(path);
         AudioClip mediaPlayer;
         mediaPlayer = new AudioClip(sound.getSource());
