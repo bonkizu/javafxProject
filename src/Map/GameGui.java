@@ -15,9 +15,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.animation.AnimationTimer;
+import javafx.scene.text.Text;
 
 public class GameGui extends StackPane {
     private final GameMap gameMap = new GameMap();
+    private Text playerMoney = new Text("Player's money: ");
 
     public GameGui() {
         setPrefHeight(720);
@@ -49,9 +51,11 @@ public class GameGui extends StackPane {
         scrollPane.setCursor(Cursor.DEFAULT);
         setAlignment(spawnHero, Pos.TOP_LEFT);
         setAlignment(Cooldown, Pos.TOP_RIGHT);
+        setMargin(playerMoney, new Insets(10));
         setMargin(spawnHero, new Insets(10));
         setMargin(Cooldown, new Insets(10));
-        getChildren().addAll(scrollPane, spawnHero, Cooldown);
+        setAlignment(playerMoney, Pos.TOP_CENTER);
+        getChildren().addAll(scrollPane, spawnHero, Cooldown, playerMoney);
     }
 
     private void startCooldownTimer(int CooldownTime, Button button ) {
@@ -72,5 +76,9 @@ public class GameGui extends StackPane {
 
     public GameMap getGameMap() {
         return gameMap;
+    }
+
+    public void setPlayerMoney(int money){
+        playerMoney.setText("Player's money: " + money);
     }
 }
