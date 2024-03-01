@@ -34,7 +34,7 @@ public class GameController {
         heroTower = (HeroTower) heroes.get(0);
         enemyTower = (EnemyTower) enemies.get(0);
         setMoney(0);
-        setIncome(100);
+        setIncome(50);
         startMoneySpawn();
         startEnemySpawn();
 //        checkHeroAndEnemy();
@@ -83,7 +83,6 @@ public class GameController {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
             setMoney(getMoney() + getIncome());
             System.out.println("Current money: " + getMoney());
-            gameGui.setPlayerMoney(getMoney());
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -123,6 +122,7 @@ public class GameController {
 
     public void setMoney(int money) {
         this.money = money;
+        gameGui.setPlayerMoney(getMoney());
     }
 
     public int getIncome() {
@@ -131,5 +131,9 @@ public class GameController {
 
     public void setIncome(int income) {
         this.income = income;
+    }
+
+    public void decreaseMoney(int money){
+        this.setMoney(Math.max(0, getMoney() - money));
     }
 }

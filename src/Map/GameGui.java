@@ -34,9 +34,10 @@ public class GameGui extends StackPane {
         Cooldown.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if(!Cooldown.isDisabled()){
+                if(!Cooldown.isDisabled() && GameController.getInstance().getMoney() >= 200){
+                    GameController.getInstance().decreaseMoney(200);
                     GameController.getInstance().spawn(new Padoru());
-                    startCooldownTimer(2000, Cooldown);
+                    startCooldownTimer(1000, Cooldown);
                 }
             }
         });
