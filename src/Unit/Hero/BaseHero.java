@@ -21,7 +21,6 @@ public abstract class BaseHero extends BaseUnit {
         super(attack, defense, hp, speed, attackSpeed, name, range, imageUrl);
         setMoving(getSpeed());
         initializeChecking();
-        move();
     }
     protected void initializeChecking() {
         checking = new Timeline(new KeyFrame(Duration.millis(10), e -> {
@@ -34,7 +33,6 @@ public abstract class BaseHero extends BaseUnit {
                 checking.stop();
                 destroyed();
             }
-            System.out.println(hasTarget);
             if(!hasTarget) {
                 for(BaseEnemy enemy : GameController.getInstance().getEnemies()) {
                     if (GameUtils.inRange(this, enemy)) {
@@ -50,6 +48,7 @@ public abstract class BaseHero extends BaseUnit {
         checking.play();
     }
     public abstract void attack(BaseUnit target);
+    public abstract BaseHero clone();
     private void destroyed() {
         GameController.getInstance().getHeroes().remove(this);
         GameController.getInstance().getGameMap().getChildren().remove(getImageView());

@@ -18,14 +18,14 @@ public class GameMap extends GridPane {
 
     public HeroTower createHeroTower() {
         HeroTower tower = new HeroTower();
-        tower.getImageView().setTranslateY(400);
+        tower.getImageView().setTranslateY(200);
         getChildren().add(tower.getImageView());
         return tower;
     }
 
     public EnemyTower createEnemyTower() {
         EnemyTower tower = new EnemyTower();
-        tower.getImageView().setTranslateY(400);
+        tower.getImageView().setTranslateY(200);
         tower.getImageView().setTranslateX(1700);
         getChildren().add(tower.getImageView());
         return tower;

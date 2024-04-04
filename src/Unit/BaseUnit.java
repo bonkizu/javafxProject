@@ -96,6 +96,9 @@ public abstract class BaseUnit {
     public ImageView getImageView() {
         return imageView;
     }
+    public String getImageUrl() {
+        return imageView.getImage().getUrl();
+    }
 
     public void setImageView(String imageUrl) {
         this.imageView = new ImageView(new Image(imageUrl));

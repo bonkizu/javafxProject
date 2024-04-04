@@ -13,4 +13,9 @@ public class HeroTower extends BaseHero {
     public void attack(BaseUnit target) {
         //Do nothing
     }
+
+    @Override
+    public BaseHero clone() {
+        return null;
+    }
 }

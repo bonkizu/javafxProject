@@ -34,10 +34,8 @@ public class Wg extends BaseEnemy {
         if(target instanceof BaseHero hero) {
             attacking = new Timeline(new KeyFrame(Duration.millis(100), e-> {
                 target.setHp(target.getHp() - getAttack());
-                System.out.println(target.getHp() + target.getName());
                 if(target.getHp() <= 0) {
                     System.out.println(GameController.getInstance().getHeroes().size());
-                    System.out.println("ต้อง move");
                     hasTarget = false;
                     move();
                     attacking.stop();

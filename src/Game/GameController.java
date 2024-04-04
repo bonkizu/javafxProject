@@ -7,7 +7,6 @@ import Unit.Enemy.EnemyTower;
 import Unit.Enemy.Wg;
 import Unit.Hero.BaseHero;
 import Unit.Hero.HeroTower;
-import Unit.Hero.Padoru;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -22,40 +21,18 @@ public class GameController {
     private final ArrayList<BaseHero> heroes = new ArrayList<>();
     public static HeroTower heroTower;
     public static EnemyTower enemyTower;
+    private Timeline enemySpawn;
 
     public GameController() {
         gameGui = new GameGui();
         gameMap = gameGui.getGameMap();
-        heroes.add(gameMap.createHeroTower());
-        enemies.add(gameMap.createEnemyTower());
-        heroTower = (HeroTower) heroes.get(0);
-        enemyTower = (EnemyTower) enemies.get(0);
+        heroTower = gameMap.createHeroTower();
+        enemyTower = gameMap.createEnemyTower();
+        heroes.add(heroTower);
+        enemies.add(enemyTower);
         startEnemySpawn();
-//        checkHeroAndEnemy();
+        checkGameOver();
     }
-
-//    private void checkHeroAndEnemy() {
-//        Duration duration = Duration.millis(100); // Set the duration to 100 milliseconds
-//        Timeline timelineHero = new Timeline(new KeyFrame(duration, event -> {
-//            for (BaseHero hero : heroes) {
-//                if (selectedHero.getImageView().getTranslateX() - hero.getImageView().getTranslateX() < 0) {
-//                    selectedHero = hero;
-//                }
-//            }
-//        }));
-//        timelineHero.setCycleCount(Timeline.INDEFINITE);
-//        timelineHero.play();
-//
-//        Timeline timelineEnemy = new Timeline(new KeyFrame(duration, event -> {
-//            for (BaseEnemy enemy : enemies) {
-//                if (selectedEnemy.getImageView().getTranslateX() - enemy.getImageView().getTranslateX() > 0) {
-//                    selectedEnemy = enemy;
-//                }
-//            }
-//        }));
-//        timelineEnemy.setCycleCount(Timeline.INDEFINITE);
-//        timelineEnemy.play();
-//    }
 
     public GameGui getGameGui() {
         return gameGui;
@@ -66,8 +43,24 @@ public class GameController {
     }
 
     private void startEnemySpawn() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(2000), e -> {
+        enemySpawn = new Timeline(new KeyFrame(Duration.millis(2000), e -> {
             spawn(new Wg());
+        }));
+        enemySpawn.setCycleCount(Timeline.INDEFINITE);
+        enemySpawn.play();
+    }
+
+
+    private void checkGameOver() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
+            System.out.println(heroTower.getHp() + " " + enemyTower.getHp());
+            if (heroTower.getHp() <= 0) {
+                System.out.println("Game Over");
+                enemySpawn.stop();
+            } else if(enemyTower.getHp() <= 0) {
+                System.out.println("Game Over");
+                enemySpawn.stop();
+            }
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -82,14 +75,16 @@ public class GameController {
 
     public void spawn(BaseHero hero) {
         gameMap.getChildren().add(hero.getImageView());
-        hero.getImageView().setTranslateY(400);
+        hero.getImageView().setTranslateY(200);
+        hero.move();
         heroes.add(hero);
     }
 
     public void spawn(BaseEnemy enemy) {
         gameMap.getChildren().add(enemy.getImageView());
-        enemy.getImageView().setTranslateY(400);
+        enemy.getImageView().setTranslateY(200);
         enemy.getImageView().setTranslateX(1700);
+        enemy.move();
         enemies.add(enemy);
     }
 

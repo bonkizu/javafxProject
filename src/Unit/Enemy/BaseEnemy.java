@@ -19,7 +19,6 @@ public abstract class BaseEnemy extends BaseUnit implements Attackable {
         super(attack, defense, hp, speed, attackSpeed, name, range, imageUrl);
         setMoving(getSpeed());
         initializeChecking();
-        move();
     }
 
     @Override
