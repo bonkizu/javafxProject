@@ -17,7 +17,7 @@ import java.io.File;
 
 public class Wg extends BaseEnemy {
     public Wg() {
-        super(10, 10, 1000, 50, 10, "Ui", 1.5, "wg.gif");
+        super(10, 10, 500, 50, 10, "Ui", 1.5, "wg.gif");
         initializeSound();
     }
 

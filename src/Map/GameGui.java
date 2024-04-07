@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class GameGui extends StackPane {
@@ -28,20 +29,15 @@ public class GameGui extends StackPane {
         setPrefHeight(720);
         setPrefWidth(1280);
 
-        Button Cooldown = new Button("Cooldown");
-        Cooldown.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if(!Cooldown.isDisabled() && GameController.getInstance().getMoney() >= 200){
-                    GameController.getInstance().decreaseMoney(200);
-                    GameController.getInstance().spawn(new Padoru());
-                    startCooldownTimer(1000, Cooldown);
-                }
-            }
-        });
-
         setMargin(playerMoney, new Insets(10));
         setAlignment(playerMoney, Pos.TOP_CENTER);
+        HBox moneyBox = new HBox(10);
+        setMargin(moneyBox, new Insets(10));
+        setAlignment(moneyBox, Pos.TOP_CENTER);
+        moneyBox.getChildren().add(playerMoney);
+        moneyBox.setPrefHeight(200);
+
+
 
         FlowPane heroesPanel = new FlowPane();
         heroesPanel.setHgap(10);
@@ -64,12 +60,12 @@ public class GameGui extends StackPane {
         scrollPane.setPannable(true);
         scrollPane.setCursor(Cursor.DEFAULT);
 
-        setAlignment(Cooldown, Pos.TOP_RIGHT);
+
         setAlignment(heroesPanel, Pos.BOTTOM_CENTER);
 
-        setMargin(Cooldown, new Insets(10));
+
         setMargin(heroesPanel, new Insets(10, 10, 50, 10));
-        getChildren().addAll(scrollPane, Cooldown, heroesPanel, playerMoney);
+        getChildren().addAll(scrollPane, heroesPanel, playerMoney);
     }
 
     private void startCooldownTimer(int CooldownTime, Button button ) {
@@ -77,7 +73,7 @@ public class GameGui extends StackPane {
 
         Thread timer = new Thread(()->{
             try{
-                Thread.sleep(2000);
+                Thread.sleep(CooldownTime);
             } catch (Exception ex){
                 ex.printStackTrace();
             }
@@ -99,6 +95,9 @@ public class GameGui extends StackPane {
         button.setPrefWidth(150);
         button.setPrefHeight(150);
         button.setBackground(Background.fill(Color.TRANSPARENT));
+        button.setText("Cost : " + hero.getCost());
+        button.setStyle(" -fx-font-weight: bold; -fx-font-size: 16;");
+
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -109,7 +108,6 @@ public class GameGui extends StackPane {
                 }
             }
         });
-
 
         stackPane.getChildren().addAll(imageView, button);
         return stackPane;

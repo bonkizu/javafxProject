@@ -10,7 +10,7 @@ import javafx.util.Duration;
 public class Saber extends BaseHero{
 
     public Saber() {
-        super(40, 40, 200, 30, 5, 200, 2000, "Saber", 1, "saber.gif");
+        super(40, 40, 200, 30, 5, 400, 3000, "Saber", 1, "saber.gif");
         getImageView().setScaleX(-1);
         getImageView().setFitWidth(300);
         getImageView().setPreserveRatio(true);
