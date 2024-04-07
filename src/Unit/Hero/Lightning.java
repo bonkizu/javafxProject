@@ -9,7 +9,7 @@ import javafx.util.Duration;
 
 public class Lightning extends BaseHero {
     public Lightning() {
-        super(5, 15, 150, 70, 20, "Lightning", 3, "lightning.gif");
+        super(5, 15, 150, 70, 20, 400, 3000, "Lightning", 3, "lightning.gif");
     }
 
     @Override
@@ -32,7 +32,6 @@ public class Lightning extends BaseHero {
     public BaseHero clone() {
         return new Lightning();
     }
-
 
 
 }

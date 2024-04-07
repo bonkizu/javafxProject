@@ -28,11 +28,6 @@ public class GameGui extends StackPane {
         setPrefHeight(720);
         setPrefWidth(1280);
 
-        Button spawnHero = new Button("Spawn Hero");
-        spawnHero.setOnAction(e -> {
-            GameController.getInstance().spawn(new Padoru());
-        });
-
         Button Cooldown = new Button("Cooldown");
         Cooldown.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -68,13 +63,13 @@ public class GameGui extends StackPane {
         scrollPane.setVmax(0);
         scrollPane.setPannable(true);
         scrollPane.setCursor(Cursor.DEFAULT);
-        setAlignment(spawnHero, Pos.TOP_LEFT);
+
         setAlignment(Cooldown, Pos.TOP_RIGHT);
         setAlignment(heroesPanel, Pos.BOTTOM_CENTER);
-        setMargin(spawnHero, new Insets(10));
+
         setMargin(Cooldown, new Insets(10));
         setMargin(heroesPanel, new Insets(10, 10, 50, 10));
-        getChildren().addAll(scrollPane, spawnHero, Cooldown, heroesPanel, playerMoney);
+        getChildren().addAll(scrollPane, Cooldown, heroesPanel, playerMoney);
     }
 
     private void startCooldownTimer(int CooldownTime, Button button ) {
@@ -104,9 +99,18 @@ public class GameGui extends StackPane {
         button.setPrefWidth(150);
         button.setPrefHeight(150);
         button.setBackground(Background.fill(Color.TRANSPARENT));
-        button.setOnAction(e -> {
-            GameController.getInstance().spawn(hero.clone());
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(!button.isDisabled() && GameController.getInstance().getMoney() >= hero.getCost()){
+                    GameController.getInstance().decreaseMoney(hero.getCost());
+                    GameController.getInstance().spawn(hero.clone());
+                    startCooldownTimer(hero.getCooldown(), button);
+                }
+            }
         });
+
+
         stackPane.getChildren().addAll(imageView, button);
         return stackPane;
     }

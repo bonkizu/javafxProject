@@ -17,8 +17,12 @@ public abstract class BaseHero extends BaseUnit {
     protected boolean hasTarget = false;
 
     protected Timeline moving;
-    public BaseHero(int attack, int defense, int hp, int speed, int attackSpeed, String name, double range, String imageUrl) {
+    protected int cost;
+    protected int cooldown;
+    public BaseHero(int attack, int defense, int hp, int speed, int attackSpeed, int cost, int cooldown, String name, double range, String imageUrl) {
         super(attack, defense, hp, speed, attackSpeed, name, range, imageUrl);
+        setCost(cost);
+        setCooldown(cooldown);
         setMoving(getSpeed());
         initializeChecking();
     }
@@ -71,4 +75,19 @@ public abstract class BaseHero extends BaseUnit {
         moving.stop();
     }
 
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
+    }
 }

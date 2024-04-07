@@ -16,7 +16,7 @@ import javafx.util.Duration;
 public class Padoru extends BaseHero {
 
     public Padoru() {
-        super(10, 10, 100, 40, 10, "Padoru", 1.5, "padoru.gif");
+        super(10, 10, 100, 40, 10, 100, 500, "Padoru", 1.5, "padoru.gif");
 
     }
     @Override
@@ -40,4 +40,6 @@ public class Padoru extends BaseHero {
     public BaseHero clone() {
         return new Padoru();
     }
+
+
 }

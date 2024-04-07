@@ -8,8 +8,9 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 public class Saber extends BaseHero{
+
     public Saber() {
-        super(40, 40, 200, 30, 5, "Saber", 1, "saber.gif");
+        super(40, 40, 200, 30, 5, 200, 2000, "Saber", 1, "saber.gif");
         getImageView().setScaleX(-1);
         getImageView().setFitWidth(300);
         getImageView().setPreserveRatio(true);
@@ -35,4 +36,6 @@ public class Saber extends BaseHero{
     public BaseHero clone() {
         return new Saber();
     }
+
+
 }
