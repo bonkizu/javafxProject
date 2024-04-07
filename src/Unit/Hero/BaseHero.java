@@ -26,7 +26,7 @@ public abstract class BaseHero extends BaseUnit {
         setMoving(getSpeed());
         initializeChecking();
     }
-    protected void initializeChecking() {
+    public void initializeChecking() {
         checking = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             if(getHp() <= 0) {
                 if(attacking != null) {

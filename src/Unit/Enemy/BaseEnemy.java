@@ -29,8 +29,8 @@ public abstract class BaseEnemy extends BaseUnit implements Attackable {
         moving.setCycleCount(Timeline.INDEFINITE);
     }
 
-    protected void initializeChecking() {
-        checking = new Timeline(new KeyFrame(Duration.millis(10), e -> {
+    public void initializeChecking() {
+        checking = new Timeline(new KeyFrame(Duration.millis(100), e -> {
             if(getHp() <= 0) {
                 if(attacking != null) {
                     attacking.stop();

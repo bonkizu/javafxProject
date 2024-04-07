@@ -11,7 +11,7 @@ public class HeroTower extends BaseHero {
 
     @Override
     public void attack(BaseUnit target) {
-        //Do nothing
+        return;
     }
 
     @Override
