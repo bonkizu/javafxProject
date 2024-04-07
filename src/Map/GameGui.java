@@ -18,9 +18,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 public class GameGui extends StackPane {
     private final GameMap gameMap = new GameMap();
+    private Text playerMoney = new Text("Player's money: ");
 
     public GameGui() {
         setPrefHeight(720);
@@ -35,12 +37,17 @@ public class GameGui extends StackPane {
         Cooldown.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if(!Cooldown.isDisabled()){
+                if(!Cooldown.isDisabled() && GameController.getInstance().getMoney() >= 200){
+                    GameController.getInstance().decreaseMoney(200);
                     GameController.getInstance().spawn(new Padoru());
-                    startCooldownTimer(2000, Cooldown);
+                    startCooldownTimer(1000, Cooldown);
                 }
             }
         });
+
+        setMargin(playerMoney, new Insets(10));
+        setAlignment(playerMoney, Pos.TOP_CENTER);
+
         FlowPane heroesPanel = new FlowPane();
         heroesPanel.setHgap(10);
         heroesPanel.setPrefWrapLength(500);
@@ -67,7 +74,7 @@ public class GameGui extends StackPane {
         setMargin(spawnHero, new Insets(10));
         setMargin(Cooldown, new Insets(10));
         setMargin(heroesPanel, new Insets(10, 10, 50, 10));
-        getChildren().addAll(scrollPane, spawnHero, Cooldown, heroesPanel);
+        getChildren().addAll(scrollPane, spawnHero, Cooldown, heroesPanel, playerMoney);
     }
 
     private void startCooldownTimer(int CooldownTime, Button button ) {
@@ -106,5 +113,8 @@ public class GameGui extends StackPane {
 
     public GameMap getGameMap() {
         return gameMap;
+    }
+    public void setPlayerMoney(int money){
+        playerMoney.setText("Player's money: " + money);
     }
 }

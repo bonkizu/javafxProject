@@ -23,6 +23,8 @@ public class GameController {
     public static EnemyTower enemyTower;
     private Timeline enemySpawn;
 
+    private int money;
+    private int income;
     public GameController() {
         gameGui = new GameGui();
         gameMap = gameGui.getGameMap();
@@ -30,10 +32,22 @@ public class GameController {
         enemyTower = gameMap.createEnemyTower();
         heroes.add(heroTower);
         enemies.add(enemyTower);
+        setMoney(0);
+        setIncome(50);
+        startMoneySpawn();
         startEnemySpawn();
         checkGameOver();
     }
 
+    private void startMoneySpawn(){
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
+            setMoney(getMoney() + getIncome());
+            System.out.println("Current money: " + getMoney());
+            gameGui.setPlayerMoney(getMoney());
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
     public GameGui getGameGui() {
         return gameGui;
     }
@@ -94,5 +108,26 @@ public class GameController {
 
     public ArrayList<BaseHero> getHeroes() {
         return heroes;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+        gameGui.setPlayerMoney(money);
+    }
+
+    public int getIncome() {
+        return income;
+    }
+
+    public void setIncome(int income) {
+        this.income = income;
+    }
+
+    public void decreaseMoney(int money){
+        this.setMoney(Math.max(0, getMoney() - money));
     }
 }
