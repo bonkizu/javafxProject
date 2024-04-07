@@ -22,6 +22,7 @@ public class GameController {
     public static HeroTower heroTower;
     public static EnemyTower enemyTower;
     private Timeline enemySpawn;
+    private Timeline gameOver;
 
     public GameController() {
         gameGui = new GameGui();
@@ -52,18 +53,15 @@ public class GameController {
 
 
     private void checkGameOver() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
-            System.out.println(heroTower.getHp() + " " + enemyTower.getHp());
-            if (heroTower.getHp() <= 0) {
+        gameOver = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
+            if (heroTower.getHp() <= 0 || enemyTower.getHp() <= 0) {
                 System.out.println("Game Over");
                 enemySpawn.stop();
-            } else if(enemyTower.getHp() <= 0) {
-                System.out.println("Game Over");
-                enemySpawn.stop();
+                gameOver.stop();
             }
         }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        gameOver.setCycleCount(Timeline.INDEFINITE);
+        gameOver.play();
     }
 
     public static GameController getInstance() {
@@ -76,6 +74,7 @@ public class GameController {
     public void spawn(BaseHero hero) {
         gameMap.getChildren().add(hero.getImageView());
         hero.getImageView().setTranslateY(200);
+        hero.initializeChecking();
         hero.move();
         heroes.add(hero);
     }
@@ -84,6 +83,7 @@ public class GameController {
         gameMap.getChildren().add(enemy.getImageView());
         enemy.getImageView().setTranslateY(200);
         enemy.getImageView().setTranslateX(1700);
+        enemy.initializeChecking();
         enemy.move();
         enemies.add(enemy);
     }

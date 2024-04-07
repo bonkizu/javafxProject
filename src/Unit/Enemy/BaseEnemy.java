@@ -18,7 +18,6 @@ public abstract class BaseEnemy extends BaseUnit implements Attackable {
     public BaseEnemy(int attack, int defense, int hp, int speed, int attackSpeed, String name, double range, String imageUrl) {
         super(attack, defense, hp, speed, attackSpeed, name, range, imageUrl);
         setMoving(getSpeed());
-        initializeChecking();
     }
 
     @Override
@@ -29,8 +28,8 @@ public abstract class BaseEnemy extends BaseUnit implements Attackable {
         moving.setCycleCount(Timeline.INDEFINITE);
     }
 
-    protected void initializeChecking() {
-        checking = new Timeline(new KeyFrame(Duration.millis(10), e -> {
+    public void initializeChecking() {
+        checking = new Timeline(new KeyFrame(Duration.millis(100), e -> {
             if(getHp() <= 0) {
                 if(attacking != null) {
                     attacking.stop();

@@ -32,10 +32,9 @@ public class Wg extends BaseEnemy {
     @Override
     public void attack(BaseUnit target) {
         if(target instanceof BaseHero hero) {
-            attacking = new Timeline(new KeyFrame(Duration.millis(100), e-> {
+            attacking = new Timeline(new KeyFrame(Duration.millis(10), e-> {
                 target.setHp(target.getHp() - getAttack());
                 if(target.getHp() <= 0) {
-                    System.out.println(GameController.getInstance().getHeroes().size());
                     hasTarget = false;
                     move();
                     attacking.stop();
