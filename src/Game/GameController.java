@@ -42,9 +42,8 @@ public class GameController {
 
     private void startMoneySpawn(){
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
-            setMoney(getMoney() + getIncome());
+            increaseMoney(getIncome());
             System.out.println("Current money: " + getMoney());
-            gameGui.setPlayerMoney(getMoney());
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -118,6 +117,12 @@ public class GameController {
         this.money = money;
         gameGui.setPlayerMoney(money);
     }
+    public void decreaseMoney(int money){
+        this.setMoney(Math.max(0, getMoney() - money));
+    }
+    public void increaseMoney(int money) {
+        setMoney(getMoney() + money);
+    }
 
     public int getIncome() {
         return income;
@@ -127,7 +132,5 @@ public class GameController {
         this.income = income;
     }
 
-    public void decreaseMoney(int money){
-        this.setMoney(Math.max(0, getMoney() - money));
-    }
+
 }
