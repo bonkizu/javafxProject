@@ -23,7 +23,6 @@ public abstract class BaseHero extends BaseUnit {
         super(attack, defense, hp, speed, attackSpeed, cost,  name, range, imageUrl);
         setCooldown(cooldown);
         setMoving(getSpeed());
-        initializeChecking();
     }
     public void initializeChecking() {
         checking = new Timeline(new KeyFrame(Duration.millis(10), e -> {
