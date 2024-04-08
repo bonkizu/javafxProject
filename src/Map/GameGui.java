@@ -29,20 +29,29 @@ public class GameGui extends StackPane {
         setPrefHeight(720);
         setPrefWidth(1280);
 
-        setMargin(playerMoney, new Insets(10));
-        setAlignment(playerMoney, Pos.TOP_CENTER);
-        HBox moneyBox = new HBox(10);
-        setMargin(moneyBox, new Insets(10));
-        setAlignment(moneyBox, Pos.TOP_CENTER);
-        moneyBox.getChildren().add(playerMoney);
-        moneyBox.setPrefHeight(200);
 
+        ImageView coin = new ImageView("coin.png");
+        coin.setFitHeight(30);
+        coin.setPreserveRatio(true);
+        HBox moneyBox = new HBox(10);
+        moneyBox.getChildren().addAll(coin, playerMoney);
+        moneyBox.setMaxHeight(30);
+        moneyBox.setMaxWidth(200);
+        moneyBox.setAlignment(Pos.CENTER);
+        setMargin(moneyBox, new Insets(10));
+        setAlignment(moneyBox, Pos.TOP_RIGHT);
+        moneyBox.setStyle("-fx-background-color: rgba(255, 204, 102, 0.5);" +
+                "-fx-border-color: black;" +                       // Black border color
+                "-fx-border-width: 2px;" +                         // Border width
+                "-fx-border-radius: 10px;");
 
 
         FlowPane heroesPanel = new FlowPane();
         heroesPanel.setHgap(10);
         heroesPanel.setPrefWrapLength(500);
-        heroesPanel.setStyle("-fx-background-color: transparent;");
+//        heroesPanel.setStyle("-fx-background-color: transparent;");
+//        heroesPanel.setStyle("-fx-background-color: rgba(255, 153, 102,  0.5);");
+
         heroesPanel.setMaxWidth(900);
         heroesPanel.setMaxHeight(150);
         heroesPanel.getChildren().add(createHeroSpawner(new Padoru()));
@@ -65,7 +74,7 @@ public class GameGui extends StackPane {
 
 
         setMargin(heroesPanel, new Insets(10, 10, 50, 10));
-        getChildren().addAll(scrollPane, heroesPanel, playerMoney);
+        getChildren().addAll(scrollPane, heroesPanel, moneyBox);
     }
 
     private void startCooldownTimer(int CooldownTime, Button button ) {
@@ -90,13 +99,14 @@ public class GameGui extends StackPane {
         imageView.setFitWidth(150);
         imageView.setPreserveRatio(true);
         stackPane.setBackground(Background.fill(Color.ORANGE));
-        stackPane.setStyle("-fx-border-color: black; -fx-border-width: 5px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
+        stackPane.setStyle("-fx-border-color: black; -fx-border-width: 5px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-background-color: rgba(255, 153, 102,  0.5);");
         Button button = new Button();
         button.setPrefWidth(150);
         button.setPrefHeight(150);
         button.setBackground(Background.fill(Color.TRANSPARENT));
         button.setText("Cost : " + hero.getCost());
-        button.setStyle(" -fx-font-weight: bold; -fx-font-size: 16;");
+        button.setAlignment(Pos.TOP_CENTER);
+        button.setStyle(" -fx-font-weight: bold; -fx-font-size: 20;" );
 
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
