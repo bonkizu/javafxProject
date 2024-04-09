@@ -15,8 +15,8 @@ public abstract class BaseEnemy extends BaseUnit implements Attackable {
     protected Timeline attacking;
     protected Timeline checking;
     protected boolean hasTarget = false;
-    public BaseEnemy(int attack, int defense, int hp, int speed, int attackSpeed, String name, double range, String imageUrl) {
-        super(attack, defense, hp, speed, attackSpeed, name, range, imageUrl);
+    public BaseEnemy(int attack, int defense, int hp, int speed, int attackSpeed, int cost, String name, double range, String imageUrl) {
+        super(attack, defense, hp, speed, attackSpeed, cost,  name, range, imageUrl);
         setMoving(getSpeed());
     }
 

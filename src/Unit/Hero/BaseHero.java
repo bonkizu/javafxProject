@@ -4,6 +4,7 @@ import Game.GameController;
 import Unit.BaseUnit;
 import Unit.Enemy.BaseEnemy;
 import Utils.GameUtils;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -17,8 +18,10 @@ public abstract class BaseHero extends BaseUnit {
     protected boolean hasTarget = false;
 
     protected Timeline moving;
-    public BaseHero(int attack, int defense, int hp, int speed, int attackSpeed, String name, double range, String imageUrl) {
-        super(attack, defense, hp, speed, attackSpeed, name, range, imageUrl);
+    protected int cooldown;
+    public BaseHero(int attack, int defense, int hp, int speed, int attackSpeed, int cost, int cooldown, String name, double range, String imageUrl) {
+        super(attack, defense, hp, speed, attackSpeed, cost,  name, range, imageUrl);
+        setCooldown(cooldown);
         setMoving(getSpeed());
     }
     public void initializeChecking() {
@@ -46,7 +49,22 @@ public abstract class BaseHero extends BaseUnit {
         checking.setCycleCount(Timeline.INDEFINITE);
         checking.play();
     }
-    public abstract void attack(BaseUnit target);
+//    public abstract void attack(BaseUnit target);
+    public void attack(BaseUnit target) {
+        if(target instanceof BaseEnemy enemy) {
+            attacking = new Timeline(new KeyFrame(Duration.millis(getAttackSpeed()), e -> {
+                target.setHp(target.getHp() - getAttack());
+                if (target.getHp() <= 0) {
+                    hasTarget = false;
+                    move();
+                    attacking.stop();
+                    GameController.getInstance().increaseMoney(enemy.getCost());
+                }
+            }));
+            attacking.setCycleCount(Animation.INDEFINITE);
+            attacking.play();
+        }
+    }
     public abstract BaseHero clone();
     private void destroyed() {
         GameController.getInstance().getHeroes().remove(this);
@@ -70,4 +88,12 @@ public abstract class BaseHero extends BaseUnit {
         moving.stop();
     }
 
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
+    }
 }

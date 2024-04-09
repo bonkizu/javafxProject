@@ -9,19 +9,21 @@ public abstract class BaseUnit {
     private int defense;
     private int hp;
     private int speed;
+    private int cost;
     private int attackSpeed;
     private String name;
     private double range;
     private ImageView imageView;
     private UnitState state;
 
-    public BaseUnit(int attack, int defense, int hp, int speed, int attackSpeed, String name, double range, String imageUrl) {
+    public BaseUnit(int attack, int defense, int hp, int speed, int attackSpeed, int cost, String name, double range, String imageUrl) {
         setAttack(attack);
         setDefense(defense);
         setHp(hp);
         setSpeed(speed);
         setAttackSpeed(attackSpeed);
         setName(name);
+        setCost(cost);
         setRange(range);
         setImageView(imageUrl);
         state = UnitState.MOVING;
@@ -30,8 +32,13 @@ public abstract class BaseUnit {
     }
 
 
+    public int getCost() {
+        return cost;
+    }
 
-
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 
     protected abstract void setMoving(int speed);
     public abstract void move();
