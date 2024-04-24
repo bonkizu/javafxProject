@@ -5,15 +5,17 @@ import Map.GameMap;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
     @Override
     public void start(Stage stage) throws Exception {
-        GameController gameInstance = GameController.getInstance();
-        stage.setScene(new Scene(gameInstance.getGameGui(), 1280, 720));
-        stage.setTitle("Hello World!");
+        Menu menu = new Menu(stage);
+        stage.setScene(new Scene(menu, 1280, 720));
+        stage.getIcons().add(new Image("padoru.gif"));
+        stage.setTitle("Line Rangers");
         stage.show();
     }
 

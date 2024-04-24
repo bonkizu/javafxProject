@@ -3,6 +3,7 @@ package Unit.Enemy;
 import Game.GameController;
 import Unit.BaseUnit;
 import Unit.Hero.BaseHero;
+import Unit.Hero.HeroTower;
 import Unit.Type.Attackable;
 import Utils.GameUtils;
 import javafx.animation.Animation;
@@ -42,6 +43,7 @@ public class Wg extends BaseEnemy {
             }));
             attacking.setCycleCount(Animation.INDEFINITE);
             attacking.play();
+            System.out.println("Attacking");
         }
 
     }

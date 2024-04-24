@@ -9,13 +9,21 @@ import Unit.Hero.BaseHero;
 import Unit.Hero.HeroTower;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
 
 public class GameController {
     public static GameController instance;
-    private final GameGui gameGui;
+    private GameGui gameGui;
     private final GameMap gameMap;
     private final ArrayList<BaseEnemy> enemies = new ArrayList<>();
     private final ArrayList<BaseHero> heroes = new ArrayList<>();
@@ -26,6 +34,7 @@ public class GameController {
 
     private int money;
     private int income;
+
     public GameController() {
         gameGui = new GameGui();
         gameMap = gameGui.getGameMap();
@@ -40,14 +49,17 @@ public class GameController {
         checkGameOver();
     }
 
-    private void startMoneySpawn(){
+    private void startMoneySpawn() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
-            increaseMoney(getIncome());
-            System.out.println("Current money: " + getMoney());
+            if (heroTower.getHp() > 0 && enemyTower.getHp() > 0) {
+                increaseMoney(getIncome());
+                System.out.println("Current money: " + getMoney());
+            }
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
+
     public GameGui getGameGui() {
         return gameGui;
     }
@@ -71,11 +83,43 @@ public class GameController {
                 System.out.println("Game Over");
                 enemySpawn.stop();
                 gameOver.stop();
+                for (BaseEnemy b : enemies) {
+                    if (b.attacking != null)
+                        b.attacking.stop();
+                    if (b.checking != null)
+                        b.checking.stop();
+                    if (b.moving != null)
+                        b.moving.stop();
+
+                }
+                Text gameOverText = new Text("Game Over");
+                gameOverText.setFont(Font.font("Arial", FontWeight.BOLD, 36));
+                gameOverText.setFill(Color.RED);
+                gameOverText.setStrokeWidth(1.5);
+
+                Text gameOverText2 = new Text(heroTower.getHp() <= 0 ? "You Lose" : "You Win");
+                gameOverText2.setFont(Font.font("Arial", FontWeight.BOLD, 36));
+                gameOverText2.setFill(heroTower.getHp() <= 0 ? Color.RED : Color.GREEN);
+                gameOverText2.setStrokeWidth(1.5);
+
+                Button newGameButton = new Button("New Game");
+                newGameButton.setOnAction(event -> Menu.getInstance().startNewGame());
+
+                gameOverText.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+                gameOverText2.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+                newGameButton.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
+                VBox gameOverBox = new VBox(20);
+                gameOverBox.setAlignment(Pos.CENTER);
+                gameOverBox.getChildren().addAll(gameOverText, gameOverText2, newGameButton);
+
+                gameGui.getChildren().add(gameOverBox);
             }
         }));
         gameOver.setCycleCount(Timeline.INDEFINITE);
         gameOver.play();
     }
+
 
     public static GameController getInstance() {
         if (instance == null) {
@@ -117,9 +161,11 @@ public class GameController {
         this.money = money;
         gameGui.setPlayerMoney(money);
     }
-    public void decreaseMoney(int money){
+
+    public void decreaseMoney(int money) {
         this.setMoney(Math.max(0, getMoney() - money));
     }
+
     public void increaseMoney(int money) {
         setMoney(getMoney() + money);
     }
@@ -132,5 +178,9 @@ public class GameController {
         this.income = income;
     }
 
+    public void reset() {
+
+        instance = new GameController();
+    }
 
 }

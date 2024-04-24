@@ -11,9 +11,9 @@ import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 
 public abstract class BaseEnemy extends BaseUnit implements Attackable {
-    protected Timeline moving;
-    protected Timeline attacking;
-    protected Timeline checking;
+    public Timeline moving;
+    public Timeline attacking;
+    public Timeline checking;
     protected boolean hasTarget = false;
     public BaseEnemy(int attack, int defense, int hp, int speed, int attackSpeed, int cost, String name, double range, String imageUrl) {
         super(attack, defense, hp, speed, attackSpeed, cost,  name, range, imageUrl);
