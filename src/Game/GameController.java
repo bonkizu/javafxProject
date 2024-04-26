@@ -92,6 +92,15 @@ public class GameController {
                         b.moving.stop();
 
                 }
+                for (BaseHero b : heroes) {
+                    if (b.attacking != null)
+                        b.attacking.stop();
+                    if (b.checking != null)
+                        b.checking.stop();
+                    if (b.moving != null)
+                        b.moving.stop();
+
+                }
                 Text gameOverText = new Text("Game Over");
                 gameOverText.setFont(Font.font("Arial", FontWeight.BOLD, 36));
                 gameOverText.setFill(Color.RED);

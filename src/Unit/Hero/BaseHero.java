@@ -12,12 +12,12 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 public abstract class BaseHero extends BaseUnit {
-    protected Timeline checking;
+    public Timeline checking;
 
-    protected Timeline attacking;
+    public Timeline attacking;
     protected boolean hasTarget = false;
 
-    protected Timeline moving;
+    public Timeline moving;
     protected int cooldown;
     public BaseHero(int attack, int defense, int hp, int speed, int attackSpeed, int cost, int cooldown, String name, double range, String imageUrl) {
         super(attack, defense, hp, speed, attackSpeed, cost,  name, range, imageUrl);
