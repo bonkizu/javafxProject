@@ -15,7 +15,7 @@ public class Main extends Application {
         Menu menu = new Menu(stage);
         stage.setScene(new Scene(menu, 1280, 720));
         stage.getIcons().add(new Image("padoru.gif"));
-        stage.setTitle("Line Rangers");
+        stage.setTitle("Rangers Line");
         stage.show();
     }
 

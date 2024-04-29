@@ -2,16 +2,16 @@ package Game;
 
 import Map.GameGui;
 import Map.GameMap;
-import Unit.Enemy.BaseEnemy;
-import Unit.Enemy.DarkSpider;
-import Unit.Enemy.EnemyTower;
+import Unit.Enemy.*;
 import Unit.Hero.BaseHero;
 import Unit.Hero.HeroTower;
+import Utils.UnitState;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Point3D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameController {
     public static GameController instance;
@@ -46,8 +47,7 @@ public class GameController {
         setMoney(0);
         setIncome(50);
         startMoneySpawn();
-        startEnemySpawn();
-        spawn(new DarkSpider());
+//        startEnemySpawn();
         checkGameOver();
     }
 
@@ -55,7 +55,6 @@ public class GameController {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
             if (heroTower.getHp() > 0 && enemyTower.getHp() > 0) {
                 increaseMoney(getIncome());
-
             }
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -72,7 +71,31 @@ public class GameController {
 
     private void startEnemySpawn() {
         enemySpawn = new Timeline(new KeyFrame(Duration.millis(2000), e -> {
+            ArrayList<BaseEnemy> allEnemies = new ArrayList<>();
+            allEnemies.add(new NightWar());
+            allEnemies.add(new FishEye());
+            allEnemies.add(new Kobold());
+            allEnemies.add(new Rat());
+            allEnemies.add(new Soulyer());
 
+            double[] probabilities = {0.05, 0.20, 0.30, 0.30, 0.15};
+
+            // Generate a random number between 0 and 1
+            double rand = Math.random();
+            double cumulativeProbability = 0.0;
+
+            // Find the enemy corresponding to the generated random number
+            BaseEnemy selectedEnemy = null;
+            for (int i = 0; i < probabilities.length; i++) {
+                cumulativeProbability += probabilities[i];
+                if (rand <= cumulativeProbability) {
+                    selectedEnemy = allEnemies.get(i);
+                    break;
+                }
+            }
+
+            // Spawn the selected enemy
+            spawn(selectedEnemy);
         }));
         enemySpawn.setCycleCount(Timeline.INDEFINITE);
         enemySpawn.play();
@@ -83,26 +106,30 @@ public class GameController {
         gameOver = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
             if (heroTower.getHp() <= 0 || enemyTower.getHp() <= 0) {
                 System.out.println("Game Over");
-                enemySpawn.stop();
-                gameOver.stop();
-//                for (BaseEnemy b : enemies) {
-//                    if (b.attacking != null)
-//                        b.attacking.stop();
-//                    if (b.checking != null)
-//                        b.checking.stop();
-//                    if (b.moving != null)
-//                        b.moving.stop();
-//
-//                }
-//                for (BaseHero b : heroes) {
-//                    if (b.attacking != null)
-//                        b.attacking.stop();
-//                    if (b.checking != null)
-//                        b.checking.stop();
-//                    if (b.moving != null)
-//                        b.moving.stop();
-//
-//                }
+                if(enemySpawn != null) {
+                    enemySpawn.stop();
+                }
+                if(gameOver != null) {
+                    gameOver.stop();
+                }
+                for (BaseEnemy enemy : enemies) {
+                    if(enemy.checking != null)
+                        enemy.checking.stop();
+                    if(enemy.moving != null)
+                        enemy.moving.stop();
+                    if(!enemy.getName().equals("EnemyTower")) {
+                        enemy.getImageView().setImage(new Image(enemy.getName() + "/idle.gif"));
+                    }
+                }
+                for (BaseHero hero : heroes) {
+                    if(hero.checking != null)
+                        hero.checking.stop();
+                    if(hero.moving != null)
+                        hero.moving.stop();
+                    if(!hero.getName().equals("HeroTower")) {
+                        hero.getImageView().setImage(new Image(hero.getName() + "/idle.gif"));
+                    }
+                }
                 Text gameOverText = new Text("Game Over");
                 gameOverText.setFont(Font.font("Arial", FontWeight.BOLD, 36));
                 gameOverText.setFill(Color.RED);
@@ -141,7 +168,7 @@ public class GameController {
 
     public void spawn(BaseHero hero) {
         gameMap.getChildren().add(hero.getImageView());
-        hero.getImageView().setTranslateY(200);
+        hero.getImageView().setTranslateX(100);
         hero.initialize();
         hero.move();
         heroes.add(hero);
@@ -150,7 +177,6 @@ public class GameController {
     public void spawn(BaseEnemy enemy) {
         gameMap.getChildren().add(enemy.getImageView());
         enemy.getImageView().setScaleX(-1);
-        enemy.getImageView().setTranslateY(200);
         enemy.getImageView().setTranslateX(1700);
         enemy.initialize();
         enemy.move();

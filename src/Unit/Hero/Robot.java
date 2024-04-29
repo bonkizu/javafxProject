@@ -12,9 +12,10 @@ import javafx.util.Duration;
 
 public class Robot extends BaseHero implements SpecialEffect {
     public Robot() {
-        super(1000, 40, 100, 60, 10, 0, 500, "Robot", 3.2, "Robot/idle.gif", 1000, 1600);
+        super(0, 400000, 100, 60, 10, 0, 500, "Robot", 2.8, "Robot/idle.gif", 1000, 1600);
         getImageView().setFitWidth(300);
         getImageView().setPreserveRatio(true);
+        getImageView().setTranslateY(120);
     }
     @Override
     public BaseHero clone() {
@@ -24,7 +25,7 @@ public class Robot extends BaseHero implements SpecialEffect {
     @Override
     public void showEffect(BaseUnit target) {
         ImageView effect = new ImageView(new Image("Robot/effect.gif"));
-        effect.setFitWidth(260);
+        effect.setFitWidth(300);
         effect.setFitHeight(120);
 
         Timeline deleteEffect = new Timeline(new KeyFrame(Duration.millis(600), e -> {
