@@ -3,11 +3,13 @@ package Game;
 import Map.GameGui;
 import Map.GameMap;
 import Unit.Enemy.BaseEnemy;
+import Unit.Enemy.DarkSpider;
 import Unit.Enemy.EnemyTower;
 import Unit.Hero.BaseHero;
 import Unit.Hero.HeroTower;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Point3D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -45,6 +47,7 @@ public class GameController {
         setIncome(50);
         startMoneySpawn();
         startEnemySpawn();
+        spawn(new DarkSpider());
         checkGameOver();
     }
 
@@ -52,7 +55,7 @@ public class GameController {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
             if (heroTower.getHp() > 0 && enemyTower.getHp() > 0) {
                 increaseMoney(getIncome());
-                System.out.println("Current money: " + getMoney());
+
             }
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -146,6 +149,7 @@ public class GameController {
 
     public void spawn(BaseEnemy enemy) {
         gameMap.getChildren().add(enemy.getImageView());
+        enemy.getImageView().setScaleX(-1);
         enemy.getImageView().setTranslateY(200);
         enemy.getImageView().setTranslateX(1700);
         enemy.initialize();

@@ -38,11 +38,23 @@ public class Golem extends BaseHero implements SpecialEffect {
             GameController.getInstance().getGameMap().getChildren().remove(effect);
         }));
         Timeline addEffect = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
-            effect.setTranslateX(target.getImageView().getTranslateX() + 80);
-            effect.setTranslateY(target.getImageView().getTranslateY() + 10);
-            GameController.getInstance().getGameMap().getChildren().add(effect);
-            deleteEffect.play();
+            if(getState() != UnitState.DEAD) {
+                effect.setTranslateX(target.getImageView().getTranslateX() + 80);
+                effect.setTranslateY(target.getImageView().getTranslateY() + 10);
+                GameController.getInstance().getGameMap().getChildren().add(effect);
+                deleteEffect.play();
+            }
         }));
         addEffect.play();
+    }
+
+    @Override
+    public void destroyed() {
+        super.destroyed();
+        getImageView().setImage(new Image("Golem/dead.gif"));
+        Timeline delete = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
+            GameController.getInstance().getGameMap().getChildren().remove(getImageView());
+        }));
+        delete.play();
     }
 }
