@@ -18,13 +18,11 @@ import java.util.List;
 public abstract class BaseEnemy extends BaseUnit {
     protected Timeline checking;
     protected Timeline moving;
-    protected int attackCooldown;
+    protected int cooldown;
     private boolean init = false;
-    protected int attackAnimationTime;
     public BaseEnemy(int attack, int defense, int hp, int speed, int attackSpeed, int cost, String name, double range, String imageUrl, int attackCooldown, int attackAnimationTime) {
         super(attack, defense, hp, speed, attackSpeed, cost,  name, range, imageUrl, attackCooldown, attackAnimationTime);
         setMoving(getSpeed());
-
     }
 
     public void initialize() {
@@ -60,7 +58,7 @@ public abstract class BaseEnemy extends BaseUnit {
                 List<BaseHero> heroesCopy = new ArrayList<>(GameController.getInstance().getHeroes());
                 for(BaseHero hero : heroesCopy) {
                     if(GameUtils.inRange(this, hero)) {
-
+                        attack(hero);
                     }
                 }
                 init = true;
@@ -69,9 +67,9 @@ public abstract class BaseEnemy extends BaseUnit {
                 setImageView(getName() + "/idle.gif");
                 Timeline delay = new Timeline(new KeyFrame(Duration.millis(getAttackCooldown()), e -> {
                     boolean found = false;
-                    List<BaseEnemy> enemiesCopy = new ArrayList<>(GameController.getInstance().getEnemies());
-                    for(BaseEnemy enemy : enemiesCopy) {
-                        if(GameUtils.inRange(this, enemy)) {
+                    List<BaseHero> heroesCopy = new ArrayList<>(GameController.getInstance().getHeroes());
+                    for(BaseHero hero : heroesCopy) {
+                        if(GameUtils.inRange(this, hero)) {
                             init = false;
                             setState(UnitState.ATTACKING);
                             found = true;
@@ -91,13 +89,13 @@ public abstract class BaseEnemy extends BaseUnit {
         checking.play();
     }
 
-    private void attack(BaseEnemy enemy) {
-        int damage = getAttack() - enemy.getDefense();
+    private void attack(BaseHero hero) {
+        int damage = getAttack() - hero.getDefense();
         if(damage > 0) {
-            enemy.setHp(enemy.getHp() - damage);
-            System.out.println(enemy.getHp());
-            if(enemy.getHp() <= 0) {
-                enemy.destroyed();
+            hero.setHp(hero.getHp() - damage);
+            System.out.println(hero.getHp());
+            if(hero.getHp() <= 0) {
+                hero.destroyed();
             }
         }
     }
@@ -122,7 +120,8 @@ public abstract class BaseEnemy extends BaseUnit {
 
     public void destroyed() {
         checking.stop();
+        moving.stop();
+        setState(UnitState.DEAD);
         GameController.getInstance().getHeroes().remove(this);
-        GameController.getInstance().getGameMap().getChildren().remove(getImageView());
     }
 }

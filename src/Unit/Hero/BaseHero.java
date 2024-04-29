@@ -116,8 +116,8 @@ public abstract class BaseHero extends BaseUnit {
     public void destroyed() {
         checking.stop();
         moving.stop();
+        setState(UnitState.DEAD);
         GameController.getInstance().getHeroes().remove(this);
-        GameController.getInstance().getGameMap().getChildren().remove(getImageView());
     }
 
     @Override
