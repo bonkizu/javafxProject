@@ -99,12 +99,19 @@ public abstract class BaseHero extends BaseUnit {
 
     private void attack(BaseEnemy enemy) {
         int damage = getAttack() - enemy.getDefense();
+        System.out.println("Hero " + this.getName() + " attack to " + enemy.getName());
         if(damage > 0) {
             enemy.setHp(enemy.getHp() - damage);
-            System.out.println(enemy.getHp());
+            //check damage from hero
+            System.out.println("Enemy " + enemy.getName() + " get attacked " + enemy.getHp());
             if(enemy.getHp() <= 0) {
                 enemy.destroyed();
+                ////check enemy dead
+                System.out.println("Enemy " + enemy.getName() + " is dead");
             }
+        }
+        else{
+            System.out.println("No Damage");
         }
     }
 
