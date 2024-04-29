@@ -4,13 +4,8 @@ import Unit.BaseUnit;
 
 public class EnemyTower extends BaseEnemy {
     public EnemyTower() {
-        super(100, 100, 10000, 0, 1, 0, "EnemyTower", 200, "base.png");
+        super(100, 100, 10000, 0, 1, 0, "EnemyTower", 0, "base.png", 0, 0);
         getImageView().setFitWidth(300);
         getImageView().setPreserveRatio(true);
-    }
-
-    @Override
-    public void attack(BaseUnit target) {
-        //Do nothing.
     }
 }

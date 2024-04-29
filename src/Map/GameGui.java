@@ -1,10 +1,7 @@
 package Map;
 
 import Game.GameController;
-import Unit.Hero.BaseHero;
-import Unit.Hero.Lightning;
-import Unit.Hero.Padoru;
-import Unit.Hero.Saber;
+import Unit.Hero.*;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -54,11 +51,11 @@ public class GameGui extends StackPane {
 
         heroesPanel.setMaxWidth(900);
         heroesPanel.setMaxHeight(150);
-        heroesPanel.getChildren().add(createHeroSpawner(new Padoru()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Lightning()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Saber()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Padoru()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Padoru()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Golem()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Spider()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Robot()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Drone()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Dog()));
 
 
         ScrollPane scrollPane = new ScrollPane(gameMap);

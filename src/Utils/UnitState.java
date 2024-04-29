@@ -2,7 +2,7 @@ package Utils;
 
 public enum UnitState {
     IDLE,
-    MOVING,
+    RUNNING,
     ATTACKING,
     DEAD
 }

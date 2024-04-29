@@ -1,19 +1,16 @@
 package Map;
 
-import Unit.Enemy.BaseEnemy;
 import Unit.Enemy.EnemyTower;
-import Unit.Enemy.Wg;
-import Unit.Hero.BaseHero;
 import Unit.Hero.HeroTower;
-import Unit.Hero.Padoru;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class GameMap extends GridPane {
     public GameMap() {
         setPrefHeight(720);
         setPrefWidth(2000);
+        setBackground(Background.fill(Color.CYAN));
     }
 
     public HeroTower createHeroTower() {
