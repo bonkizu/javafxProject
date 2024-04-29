@@ -4,15 +4,9 @@ import Unit.BaseUnit;
 
 public class HeroTower extends BaseHero {
     public HeroTower() {
-        super(100, 1000, 10000, 0, 1, 0, 0, "HeroTower", 200, "base.png");
+        super(1000, 1000, 10000, 0, 1, 0, 0, "HeroTower", 100, "base.png", 1000, 1600);
         getImageView().setFitWidth(300);
         getImageView().setPreserveRatio(true);
-
-    }
-
-    @Override
-    public void attack(BaseUnit target) {
-        return;
     }
 
     @Override

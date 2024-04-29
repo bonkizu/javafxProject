@@ -1,8 +1,18 @@
 package Unit;
 
+import Game.GameController;
+import Unit.Enemy.BaseEnemy;
+import Unit.Type.SpecialEffect;
+import Utils.GameUtils;
 import Utils.UnitState;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseUnit {
     private int attack;
@@ -15,8 +25,10 @@ public abstract class BaseUnit {
     private double range;
     private ImageView imageView;
     private UnitState state;
+    private int attackCooldown;
+    private int attackAnimationTime;
 
-    public BaseUnit(int attack, int defense, int hp, int speed, int attackSpeed, int cost, String name, double range, String imageUrl) {
+    public BaseUnit(int attack, int defense, int hp, int speed, int attackSpeed, int cost, String name, double range, String imageUrl, int attackCooldown, int attackAnimationTime) {
         setAttack(attack);
         setDefense(defense);
         setHp(hp);
@@ -26,11 +38,12 @@ public abstract class BaseUnit {
         setCost(cost);
         setRange(range);
         setImageView(imageUrl);
-        state = UnitState.MOVING;
+        state = UnitState.RUNNING;
         getImageView().setFitWidth(200);
         getImageView().setPreserveRatio(true);
+        setAttackCooldown(attackCooldown);
+        setAttackAnimationTime(attackAnimationTime);
     }
-
 
     public int getCost() {
         return cost;
@@ -108,7 +121,11 @@ public abstract class BaseUnit {
     }
 
     public void setImageView(String imageUrl) {
-        this.imageView = new ImageView(new Image(imageUrl));
+        if(imageView == null) {
+            imageView = new ImageView(new Image(imageUrl));
+        } else {
+            imageView.setImage(new Image(imageUrl));
+        }
     }
 
     public UnitState getState() {
@@ -117,5 +134,21 @@ public abstract class BaseUnit {
 
     public void setState(UnitState state) {
         this.state = state;
+    }
+
+    public int getAttackCooldown() {
+        return attackCooldown;
+    }
+
+    public void setAttackCooldown(int attackCooldown) {
+        this.attackCooldown = attackCooldown;
+    }
+
+    public int getAttackAnimationTime() {
+        return attackAnimationTime;
+    }
+
+    public void setAttackAnimationTime(int attackAnimationTime) {
+        this.attackAnimationTime = attackAnimationTime;
     }
 }
