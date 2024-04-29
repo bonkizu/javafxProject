@@ -10,7 +10,7 @@ public class GameMap extends GridPane {
     public GameMap() {
         setPrefHeight(720);
         setPrefWidth(2000);
-        setBackground(Background.fill(Color.CYAN));
+        setBackground(Background.fill(Color.BLACK));
     }
 
     public HeroTower createHeroTower() {

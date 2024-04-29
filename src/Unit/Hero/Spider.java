@@ -12,7 +12,9 @@ import javafx.util.Duration;
 public class Spider extends BaseHero {
 
     public Spider() {
-        super(1000, 40, 100, 60, 10, 150, 500, "Spider", 1.4, "Spider/idle.gif", 1000, 1600);
+        super(1000, 40, 100, 60, 10, 0, 500, "Spider", 0.5, "Spider/idle.gif", 1000, 1600);
+        getImageView().setFitWidth(150);
+        getImageView().setPreserveRatio(true);
     }
     @Override
     public BaseHero clone() {

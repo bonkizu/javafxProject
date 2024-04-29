@@ -11,7 +11,9 @@ import javafx.util.Duration;
 
 public class Robot extends BaseHero implements SpecialEffect {
     public Robot() {
-        super(1000, 40, 100, 60, 10, 150, 500, "Robot", 1.4, "Robot/idle.gif", 1000, 1600);
+        super(1000, 40, 100, 60, 10, 0, 500, "Robot", 2.5, "Robot/idle.gif", 1000, 1600);
+        getImageView().setFitWidth(300);
+        getImageView().setPreserveRatio(true);
     }
     @Override
     public BaseHero clone() {
@@ -21,14 +23,14 @@ public class Robot extends BaseHero implements SpecialEffect {
     @Override
     public void showEffect(BaseUnit target) {
         ImageView effect = new ImageView(new Image("Robot/effect.gif"));
-        effect.setFitWidth(150);
-        effect.setPreserveRatio(true);
+        effect.setFitWidth(280);
+        effect.setFitHeight(120);
 
         Timeline deleteEffect = new Timeline(new KeyFrame(Duration.millis(600), e -> {
             GameController.getInstance().getGameMap().getChildren().remove(effect);
         }));
         Timeline addEffect = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
-            effect.setTranslateX(target.getImageView().getTranslateX() + 80);
+            effect.setTranslateX(target.getImageView().getTranslateX() + 100);
             effect.setTranslateY(target.getImageView().getTranslateY() + 10);
             GameController.getInstance().getGameMap().getChildren().add(effect);
             deleteEffect.play();
