@@ -18,7 +18,6 @@ import java.util.List;
 public abstract class BaseEnemy extends BaseUnit {
     protected Timeline checking;
     protected Timeline moving;
-    protected int cooldown;
     private boolean init = false;
     public BaseEnemy(int attack, int defense, int hp, int speed, int attackSpeed, int cost, String name, double range, String imageUrl, int attackCooldown, int attackAnimationTime) {
         super(attack, defense, hp, speed, attackSpeed, cost,  name, range, imageUrl, attackCooldown, attackAnimationTime);
@@ -91,12 +90,19 @@ public abstract class BaseEnemy extends BaseUnit {
 
     private void attack(BaseHero hero) {
         int damage = getAttack() - hero.getDefense();
+        System.out.println("Enemy " + this.getName() + " attack to " + hero.getName());
         if(damage > 0) {
             hero.setHp(hero.getHp() - damage);
-            System.out.println(hero.getHp());
+            //check damage from enemy
+            System.out.println("Hero " + hero.getName() + " get attacked " + hero.getHp());
             if(hero.getHp() <= 0) {
                 hero.destroyed();
+                //check hero dead
+                System.out.println("Hero " + hero.getName() + " is dead");
             }
+        }
+        else {
+            System.out.println("No Damage");
         }
     }
 
@@ -122,6 +128,6 @@ public abstract class BaseEnemy extends BaseUnit {
         checking.stop();
         moving.stop();
         setState(UnitState.DEAD);
-        GameController.getInstance().getHeroes().remove(this);
+        GameController.getInstance().getEnemies().remove(this);
     }
 }
