@@ -4,7 +4,6 @@ import Map.GameGui;
 import Map.GameMap;
 import Unit.Enemy.BaseEnemy;
 import Unit.Enemy.EnemyTower;
-import Unit.Enemy.Wg;
 import Unit.Hero.BaseHero;
 import Unit.Hero.HeroTower;
 import javafx.animation.KeyFrame;
@@ -70,7 +69,7 @@ public class GameController {
 
     private void startEnemySpawn() {
         enemySpawn = new Timeline(new KeyFrame(Duration.millis(2000), e -> {
-            spawn(new Wg());
+
         }));
         enemySpawn.setCycleCount(Timeline.INDEFINITE);
         enemySpawn.play();
@@ -83,24 +82,24 @@ public class GameController {
                 System.out.println("Game Over");
                 enemySpawn.stop();
                 gameOver.stop();
-                for (BaseEnemy b : enemies) {
-                    if (b.attacking != null)
-                        b.attacking.stop();
-                    if (b.checking != null)
-                        b.checking.stop();
-                    if (b.moving != null)
-                        b.moving.stop();
-
-                }
-                for (BaseHero b : heroes) {
-                    if (b.attacking != null)
-                        b.attacking.stop();
-                    if (b.checking != null)
-                        b.checking.stop();
-                    if (b.moving != null)
-                        b.moving.stop();
-
-                }
+//                for (BaseEnemy b : enemies) {
+//                    if (b.attacking != null)
+//                        b.attacking.stop();
+//                    if (b.checking != null)
+//                        b.checking.stop();
+//                    if (b.moving != null)
+//                        b.moving.stop();
+//
+//                }
+//                for (BaseHero b : heroes) {
+//                    if (b.attacking != null)
+//                        b.attacking.stop();
+//                    if (b.checking != null)
+//                        b.checking.stop();
+//                    if (b.moving != null)
+//                        b.moving.stop();
+//
+//                }
                 Text gameOverText = new Text("Game Over");
                 gameOverText.setFont(Font.font("Arial", FontWeight.BOLD, 36));
                 gameOverText.setFill(Color.RED);
@@ -140,7 +139,7 @@ public class GameController {
     public void spawn(BaseHero hero) {
         gameMap.getChildren().add(hero.getImageView());
         hero.getImageView().setTranslateY(200);
-        hero.initializeChecking();
+        hero.initialize();
         hero.move();
         heroes.add(hero);
     }
@@ -149,7 +148,7 @@ public class GameController {
         gameMap.getChildren().add(enemy.getImageView());
         enemy.getImageView().setTranslateY(200);
         enemy.getImageView().setTranslateX(1700);
-        enemy.initializeChecking();
+        enemy.initialize();
         enemy.move();
         enemies.add(enemy);
     }

@@ -18,7 +18,9 @@ import java.util.Arrays;
 
 public class Golem extends BaseHero implements SpecialEffect {
     public Golem() {
-        super(2000, 40, 100, 60, 10, 150, 500, "Golem", 1.4, "Golem/idle.gif", 1000, 1600);
+        super(2000, 40, 100, 60, 10, 0, 500, "Golem", 1, "Golem/idle.gif", 1000, 1600);
+        getImageView().setFitWidth(200);
+        getImageView().setPreserveRatio(true);
     }
 
     @Override
