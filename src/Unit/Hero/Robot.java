@@ -12,7 +12,7 @@ import javafx.util.Duration;
 
 public class Robot extends BaseHero implements SpecialEffect {
     public Robot() {
-        super(0, 400000, 100, 60, 10, 0, 500, "Robot", 2.8, "Robot/idle.gif", 1000, 1600);
+        super(400, 100, 600, 60, 10, 0, 500, "Robot", 2.8, "Robot/idle.gif", 1000, 1600);
         getImageView().setFitWidth(300);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(120);

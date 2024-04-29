@@ -74,11 +74,11 @@ public abstract class BaseUnit {
     }
 
     public int getHp() {
-        return hp;
+        return Math.max(0, hp);
     }
 
     public void setHp(int hp) {
-        this.hp = hp;
+        this.hp = Math.max(0, hp);
     }
 
     public int getSpeed() {

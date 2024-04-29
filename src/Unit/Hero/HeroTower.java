@@ -4,7 +4,7 @@ import Unit.BaseUnit;
 
 public class HeroTower extends BaseHero {
     public HeroTower() {
-        super(1000, 1000, 10000, 0, 1, 0, 0, "HeroTower", 100, "heroTower.gif", 1000, 1600);
+        super(0, 100, 10000, 0, 1, 0, 0, "HeroTower", 1, "heroTower.gif", 1, 1);
         getImageView().setFitWidth(300);
         getImageView().setPreserveRatio(true);
     }

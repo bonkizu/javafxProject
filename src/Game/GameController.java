@@ -47,7 +47,7 @@ public class GameController {
         setMoney(0);
         setIncome(50);
         startMoneySpawn();
-//        startEnemySpawn();
+        startEnemySpawn();
         checkGameOver();
     }
 
@@ -78,7 +78,7 @@ public class GameController {
             allEnemies.add(new Rat());
             allEnemies.add(new Soulyer());
 
-            double[] probabilities = {0.05, 0.20, 0.30, 0.30, 0.15};
+            double[] probabilities = {0.1, 0.20, 0.25, 0.25, 0.2};
 
             // Generate a random number between 0 and 1
             double rand = Math.random();
@@ -103,7 +103,19 @@ public class GameController {
 
 
     private void checkGameOver() {
-        gameOver = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
+        Text heroTowerHP = new Text("10000/10000");
+        Text enemyTowerHP = new Text("10000/10000");
+        heroTowerHP.setTranslateX(80);
+        heroTowerHP.setTranslateY(-120);
+        heroTowerHP.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        enemyTowerHP.setTranslateX(1780);
+        enemyTowerHP.setTranslateY(-120);
+        enemyTowerHP.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        getGameMap().getChildren().add(heroTowerHP);
+        getGameMap().getChildren().add(enemyTowerHP);
+        gameOver = new Timeline(new KeyFrame(Duration.millis(10), e -> {
+            heroTowerHP.setText(heroTower.getHp() + "/10000");
+            enemyTowerHP.setText(enemyTower.getHp() + "/10000");
             if (heroTower.getHp() <= 0 || enemyTower.getHp() <= 0) {
                 System.out.println("Game Over");
                 if(enemySpawn != null) {

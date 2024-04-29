@@ -13,7 +13,7 @@ import javafx.util.Duration;
 
 public class Kobold extends BaseEnemy implements SpecialEffect {
     public Kobold() {
-        super(10000, 40, 10000, 60, 10, 0, "Kobold", 2, "Kobold/idle.gif",1000, 1600);
+        super(300, 40, 200, 60, 10, 0, "Kobold", 2, "Kobold/idle.gif",500, 1600);
         getImageView().setFitWidth(150);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(135);
