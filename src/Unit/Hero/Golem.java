@@ -18,9 +18,10 @@ import java.util.Arrays;
 
 public class Golem extends BaseHero implements SpecialEffect {
     public Golem() {
-        super(2000, 40, 100, 60, 10, 0, 500, "Golem", 1, "Golem/idle.gif", 1000, 1600);
+        super(2000, 40, 100, 60, 10, 0, 500, "Golem", 1.4, "Golem/idle.gif", 1000, 1600);
         getImageView().setFitWidth(200);
         getImageView().setPreserveRatio(true);
+        getImageView().setTranslateY(150);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class Golem extends BaseHero implements SpecialEffect {
         Timeline addEffect = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
             if(getState() != UnitState.DEAD) {
                 effect.setTranslateX(target.getImageView().getTranslateX() + 80);
-                effect.setTranslateY(target.getImageView().getTranslateY() + 10);
+                effect.setTranslateY(target.getImageView().getTranslateY() + 20);
                 GameController.getInstance().getGameMap().getChildren().add(effect);
                 deleteEffect.play();
             }

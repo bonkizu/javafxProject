@@ -51,11 +51,11 @@ public class GameGui extends StackPane {
 
         heroesPanel.setMaxWidth(900);
         heroesPanel.setMaxHeight(150);
-        heroesPanel.getChildren().add(createHeroSpawner(new Golem()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Spider()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Robot()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Drone()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Dog()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Golem().clone()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Spider().clone()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Robot().clone()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Drone().clone()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Dog().clone()));
 
 
         ScrollPane scrollPane = new ScrollPane(gameMap);
@@ -93,7 +93,7 @@ public class GameGui extends StackPane {
     private StackPane createHeroSpawner(BaseHero hero) {
         StackPane stackPane = new StackPane();
         ImageView imageView = new ImageView(hero.getImageUrl());
-        imageView.setFitWidth(150);
+        imageView.setFitWidth(120);
         imageView.setPreserveRatio(true);
         stackPane.setBackground(Background.fill(Color.ORANGE));
         stackPane.setStyle("-fx-border-color: black; -fx-border-width: 5px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-background-color: rgba(255, 153, 102,  0.5);");
