@@ -65,17 +65,19 @@ public class GameGui extends StackPane {
         scrollPane.setPannable(true);
         scrollPane.setCursor(Cursor.DEFAULT);
 
-//        ImageView bg = new ImageView("BG.png");
-//        setAlignment(bg, Pos.TOP_CENTER);
-//        bg.setFitHeight(480);
-//        bg.setFitWidth(2000);
-//        gameMap.getChildren().add(bg);
-
+        ImageView bg = new ImageView("BG.png");
+        setAlignment(bg, Pos.TOP_CENTER);
+        bg.setFitHeight(470);
+        bg.setFitWidth(2000);
+        gameMap.getChildren().add(bg);
 
         setAlignment(heroesPanel, Pos.BOTTOM_CENTER);
-
-
         setMargin(heroesPanel, new Insets(10, 10, 50, 10));
+
+//        ImageView underG = new ImageView("underG.png");
+//        underG.setFitHeight(250);
+//        underG.setFitWidth(2000);
+//        setAlignment(underG, Pos.BOTTOM_CENTER);
         getChildren().addAll(scrollPane, heroesPanel, moneyBox);
     }
 

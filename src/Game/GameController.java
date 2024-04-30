@@ -108,9 +108,11 @@ public class GameController {
         heroTowerHP.setTranslateX(80);
         heroTowerHP.setTranslateY(-120);
         heroTowerHP.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        heroTowerHP.setFill(Color.FLORALWHITE);
         enemyTowerHP.setTranslateX(1780);
         enemyTowerHP.setTranslateY(-120);
         enemyTowerHP.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        enemyTowerHP.setFill(Color.FLORALWHITE);
         getGameMap().getChildren().add(heroTowerHP);
         getGameMap().getChildren().add(enemyTowerHP);
         gameOver = new Timeline(new KeyFrame(Duration.millis(10), e -> {
@@ -119,15 +121,27 @@ public class GameController {
             if (heroTower.getHp() <= 0 || enemyTower.getHp() <= 0) {
                 enemySpawn.stop();
                 for (BaseEnemy enemy : enemies) {
+                    if(enemy.equals(enemyTower)) continue;
+                    if(enemyTower.getHp() <= 0) {
+                        enemy.setState(UnitState.DEAD);
+                        continue;
+                    }
                     enemy.stopEnemyLogic();
                     enemy.stopMoving();
                     enemy.getImageView().setImage(new Image(enemy.getName() + "/idle.gif"));
                 }
                 for (BaseHero hero : heroes) {
+                    if(hero.equals(heroTower)) continue;
+                    if(heroTower.getHp() <= 0) {
+                        hero.setState(UnitState.DEAD);
+                        continue;
+                    }
                     hero.stopHeroLogic();
                     hero.stopMoving();
                     hero.getImageView().setImage(new Image(hero.getName() + "/idle.gif"));
                 }
+                heroTower.getImageView().setImage(new Image(heroTower.getName() + "/dead.gif"));
+                enemyTower.getImageView().setImage(new Image(enemyTower.getName() + "/dead.gif"));
                 Text gameOverText = new Text("Game Over");
                 gameOverText.setFont(Font.font("Arial", FontWeight.BOLD, 36));
                 gameOverText.setFill(Color.RED);
