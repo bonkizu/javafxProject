@@ -18,6 +18,7 @@ public abstract class BaseUnit {
     private int attack;
     private int defense;
     private int hp;
+    private int maxHp;
     private int speed;
     private String name;
     private double range;
@@ -31,6 +32,7 @@ public abstract class BaseUnit {
         setAttack(attack);
         setDefense(defense);
         setHp(hp);
+        setMaxHp(hp);
         setSpeed(speed);
         setName(name);
         setRange(range);
@@ -42,10 +44,6 @@ public abstract class BaseUnit {
         setAttackAnimationTime(attackAnimationTime);
         setDeadAnimationTime(deadAnimationTime);
     }
-
-    protected abstract void setMoving(int speed);
-    public abstract void move();
-    public abstract void stopMoving();
 
     public int getAttack() {
         return attack;
@@ -69,6 +67,14 @@ public abstract class BaseUnit {
 
     public void setHp(int hp) {
         this.hp = Math.max(0, hp);
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
     }
 
     public int getSpeed() {

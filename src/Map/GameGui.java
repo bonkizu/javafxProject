@@ -51,11 +51,11 @@ public class GameGui extends StackPane {
 
         heroesPanel.setMaxWidth(900);
         heroesPanel.setMaxHeight(150);
-        heroesPanel.getChildren().add(createHeroSpawner(new Golem().clone()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Spider().clone()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Robot().clone()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Drone().clone()));
-        heroesPanel.getChildren().add(createHeroSpawner(new Dog().clone()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Golem()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Spider()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Robot()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Drone()));
+        heroesPanel.getChildren().add(createHeroSpawner(new Dog()));
 
 
         ScrollPane scrollPane = new ScrollPane(gameMap);

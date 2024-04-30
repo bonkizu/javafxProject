@@ -1,6 +1,9 @@
 package Unit.Enemy;
 
 import Unit.BaseUnit;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 public class EnemyTower extends BaseEnemy {
     public EnemyTower() {
@@ -8,4 +11,6 @@ public class EnemyTower extends BaseEnemy {
         getImageView().setFitWidth(300);
         getImageView().setPreserveRatio(true);
     }
+
+
 }

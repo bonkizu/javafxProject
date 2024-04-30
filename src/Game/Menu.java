@@ -13,7 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Menu extends VBox {
-
     private static Stage primaryStage;
     private static Menu instance;
     public Menu(Stage primaryStage) {

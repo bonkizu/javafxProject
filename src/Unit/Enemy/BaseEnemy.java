@@ -17,127 +17,125 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseEnemy extends BaseUnit {
-    public Timeline checking;
-    public Timeline moving;
-    private boolean init = false;
+    private Timeline enemyLogic;
+    private Timeline enemyMove;
+    private boolean isCooldown = false;
+    private boolean isMoving = false;
     public BaseEnemy(int attack, int defense, int hp, int speed, String name, double range, String imageUrl, int attackCooldown, int attackAnimationTime, int deadAnimationTime) {
         super(attack, defense, hp, speed,  name, range, imageUrl, attackCooldown, attackAnimationTime, deadAnimationTime);
-        setMoving(getSpeed());
     }
 
-    public void initialize() {
-        setMoving(getSpeed());
-        checking = new Timeline(new KeyFrame(Duration.millis(10), event -> {
-            if(getState() == UnitState.RUNNING) {
-                if(!init) {
-                    setImageView(getName() + "/run.gif");
-                    move();
-                    init = true;
-                }
-                List<BaseHero> heroesCopy = new ArrayList<>(GameController.getInstance().getHeroes());
-                for(BaseHero hero : heroesCopy) {
-                    if(GameUtils.inRange(this, hero)) {
-                        stopMoving();
-                        init = false;
-                        setState(UnitState.ATTACKING);
-                        break;
+    public void initializeEnemyLogic() {
+        enemyLogic = new Timeline(new KeyFrame(Duration.millis(10), e -> {
+            List<BaseHero> heroList = new ArrayList<>(GameController.getInstance().getHeroes());
+            switch (getState()) {
+                case RUNNING:
+                    if(!isMoving) {
+                        move();
+                        setImageView(getName() + "/run.gif");
+                        isMoving = true;
                     }
-                }
-            }
-            if(getState() == UnitState.ATTACKING && !init) {
-                stopMoving();
-                setImageView(getName() + "/attack.gif");
-                if(this.getClass().getInterfaces().length > 0 && this.getClass().getInterfaces()[0] == SpecialEffect.class) {
-                    ((SpecialEffect) this).showEffect(this);
-                }
-                Timeline delay = new Timeline(new KeyFrame(Duration.millis(getAttackAnimationTime()), e-> {
-                    init = false;
-                    setState(UnitState.IDLE);
-                }));
-                delay.play();
-                List<BaseHero> heroesCopy = new ArrayList<>(GameController.getInstance().getHeroes());
-                for(BaseHero hero : heroesCopy) {
-                    if(GameUtils.inRange(this, hero)) {
-                        Timeline attackA = new Timeline(new KeyFrame(Duration.millis(getAttackAnimationTime()), e -> {
-                            if(getHp() > 0) {
-                                attack(hero);
-                            }
-                        }));
-                        attackA.play();
-                    }
-                }
-                init = true;
-            }
-            if(getState() == UnitState.IDLE && !init) {
-                setImageView(getName() + "/idle.gif");
-                Timeline delay = new Timeline(new KeyFrame(Duration.millis(getAttackCooldown()), e -> {
-                    boolean found = false;
-                    List<BaseHero> heroesCopy = new ArrayList<>(GameController.getInstance().getHeroes());
-                    for(BaseHero hero : heroesCopy) {
-                        if(GameUtils.inRange(this, hero)) {
-                            init = false;
+                    for(BaseHero hero : heroList) {
+                        if (GameUtils.inRange(this, hero)) {
                             setState(UnitState.ATTACKING);
-                            found = true;
                             break;
                         }
                     }
-                    if(!found) {
-                        init = false;
+                    break;
+                case ATTACKING:
+                    stopMoving();
+                    isMoving = false;
+                    setImageView(getName() + "/attack.gif");
+                    for(BaseHero hero : heroList) {
+                        if (GameUtils.inRange(this, hero)) {
+                            attack(hero);
+                            break;
+                        }
+                    }
+                    isCooldown = true;
+                    toIdle();
+                    setState(UnitState.IDLE);
+                    break;
+                case IDLE:
+                    if(!isCooldown) {
                         setState(UnitState.RUNNING);
                     }
-                }));
-                delay.play();
-                init = true;
+                    break;
+                case DEAD:
+                    enemyDestroyed();
+                    stopMoving();
+                    stopEnemyLogic();
+                    break;
             }
         }));
-        checking.setCycleCount(Timeline.INDEFINITE);
-        checking.play();
+        enemyLogic.setCycleCount(Timeline.INDEFINITE);
+    }
+
+    public void playEnemyLogic() {
+        enemyLogic.play();
+    }
+
+    public void stopEnemyLogic() {
+        enemyLogic.stop();
+    }
+
+    public void initializeEnemyMove() {
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(100), getImageView());
+        translateTransition.setByX(-getSpeed());
+        enemyMove = new Timeline(new KeyFrame(Duration.millis(100), e -> translateTransition.playFromStart()));
+        enemyMove.setCycleCount(Timeline.INDEFINITE);
+    }
+
+    private void move() {
+        enemyMove.play();
+    }
+
+    private void stopMoving() {
+        enemyMove.stop();
     }
 
     private void attack(BaseHero hero) {
+        if(this.getClass().getInterfaces().length > 0 && this.getClass().getInterfaces()[0] == SpecialEffect.class) {
+            ((SpecialEffect) this).showEffect(this);
+        }
         int damage = getAttack() - hero.getDefense();
-        if(damage > 0) {
-            hero.setHp(hero.getHp() - damage);
-            if(hero.getHp() <= 0) {
-                hero.destroyed();
+        Timeline attackAnimationPlay = new Timeline(new KeyFrame(Duration.millis(getAttackAnimationTime()), e -> {
+            if(getState() != UnitState.DEAD) {
+                hero.setHp(hero.getHp() - damage);
+                System.out.println("hero hp " + hero.getHp());
+                if (hero.getHp() <= 0) {
+                    hero.setState(UnitState.DEAD);
+                }
             }
+        }));
+        attackAnimationPlay.play();
+    }
+
+    private void enemyDestroyed() {
+        GameController.getInstance().getEnemies().remove(this);
+        if (!getName().equals("EnemyTower")) {
+            getImageView().setImage(new Image(getName() + "/dead.gif"));
+            Timeline delete = new Timeline(new KeyFrame(Duration.millis(getDeadAnimationTime()), e -> {
+                GameController.getInstance().getGameMap().getChildren().remove(getImageView());
+            }));
+            delete.play();
         }
     }
 
-    @Override
-    protected void setMoving(int speed) {
-        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(100), getImageView());
-        translateTransition.setByX(-speed);
-        moving = new Timeline(new KeyFrame(Duration.millis(100), e -> translateTransition.playFromStart()));
-        moving.setCycleCount(Timeline.INDEFINITE);
+    private void setCooldown() {
+        Timeline cooldown = new Timeline(new KeyFrame(Duration.millis(getAttackCooldown()), e -> {
+            isCooldown = false;
+        }));
+        cooldown.play();
     }
 
-    @Override
-    public void move() {
-        moving.play();
-    }
-
-    @Override
-    public void stopMoving() {
-        moving.stop();
-    }
-
-    public void destroyed() {
-        if (!getState().equals(UnitState.DEAD)) {
-            if (checking != null) {
-                checking.stop();
+    private void toIdle() {
+        Timeline toIdle = new Timeline(new KeyFrame(Duration.millis(getAttackAnimationTime()), e -> {
+            if(getState() != UnitState.DEAD) {
+                setImageView(getName() + "/idle.gif");
+                setCooldown();
             }
-            if (moving != null) {
-                moving.stop();
-            }
-            GameController.getInstance().getEnemies().remove(this);
-            if (!getName().equals("EnemyTower")) {
-                getImageView().setImage(new Image(getName() + "/dead.gif"));
-                Timeline delete = new Timeline(new KeyFrame(Duration.millis(getDeadAnimationTime()), e -> {
-                    GameController.getInstance().getGameMap().getChildren().remove(getImageView());
-                }));
-                delete.play();
-            }
-        }
+        }));
+        toIdle.play();
     }
 }

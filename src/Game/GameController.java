@@ -71,7 +71,7 @@ public class GameController {
     }
 
     private void startEnemySpawn() {
-        enemySpawn = new Timeline(new KeyFrame(Duration.millis(3000), e -> {
+        enemySpawn = new Timeline(new KeyFrame(Duration.millis(2000), e -> {
             ArrayList<BaseEnemy> allEnemies = new ArrayList<>();
             allEnemies.add(new NightWar());
             allEnemies.add(new FishEye());
@@ -104,8 +104,8 @@ public class GameController {
 
 
     private void checkGameOver() {
-        Text heroTowerHP = new Text("10000/10000");
-        Text enemyTowerHP = new Text("10000/10000");
+        Text heroTowerHP = new Text(heroTower.getHp() + "/" + heroTower.getMaxHp());
+        Text enemyTowerHP = new Text(enemyTower.getHp() + "/" + enemyTower.getMaxHp());
         heroTowerHP.setTranslateX(80);
         heroTowerHP.setTranslateY(-120);
         heroTowerHP.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
@@ -115,34 +115,9 @@ public class GameController {
         getGameMap().getChildren().add(heroTowerHP);
         getGameMap().getChildren().add(enemyTowerHP);
         gameOver = new Timeline(new KeyFrame(Duration.millis(100), e -> {
-            heroTowerHP.setText(heroTower.getHp() + "/10000");
-            enemyTowerHP.setText(enemyTower.getHp() + "/10000");
+            heroTowerHP.setText(heroTower.getHp() + "/" + heroTower.getMaxHp());
+            enemyTowerHP.setText(enemyTower.getHp() + "/" + enemyTower.getMaxHp());
             if (heroTower.getHp() <= 0 || enemyTower.getHp() <= 0) {
-                System.out.println("Game Over");
-                if(enemySpawn != null) {
-                    enemySpawn.stop();
-                }
-                if(gameOver != null) {
-                    gameOver.stop();
-                }
-                for (BaseEnemy enemy : enemies) {
-                    if(enemy.checking != null)
-                        enemy.checking.stop();
-                    if(enemy.moving != null)
-                        enemy.moving.stop();
-                    if(!enemy.getName().equals("EnemyTower")) {
-                        enemy.getImageView().setImage(new Image(enemy.getName() + "/idle.gif"));
-                    }
-                }
-                for (BaseHero hero : heroes) {
-                    if(hero.checking != null)
-                        hero.checking.stop();
-                    if(hero.moving != null)
-                        hero.moving.stop();
-                    if(!hero.getName().equals("HeroTower")) {
-                        hero.getImageView().setImage(new Image(hero.getName() + "/idle.gif"));
-                    }
-                }
                 Text gameOverText = new Text("Game Over");
                 gameOverText.setFont(Font.font("Arial", FontWeight.BOLD, 36));
                 gameOverText.setFill(Color.RED);
@@ -182,17 +157,19 @@ public class GameController {
     public void spawn(BaseHero hero) {
         gameMap.getChildren().add(hero.getImageView());
         hero.getImageView().setTranslateX(100);
-        hero.initialize();
-        hero.move();
+        hero.initializeHeroLogic();
+        hero.initializeHeroMove();
+        hero.playHeroLogic();
         heroes.add(hero);
     }
 
     public void spawn(BaseEnemy enemy) {
         gameMap.getChildren().add(enemy.getImageView());
         enemy.getImageView().setScaleX(-1);
-        enemy.getImageView().setTranslateX(1800);
-        enemy.initialize();
-        enemy.move();
+        enemy.getImageView().setTranslateX(1700);
+        enemy.initializeEnemyLogic();
+        enemy.initializeEnemyMove();
+        enemy.playEnemyLogic();
         enemies.add(enemy);
     }
 
@@ -230,7 +207,6 @@ public class GameController {
     }
 
     public void reset() {
-
         instance = new GameController();
     }
 
