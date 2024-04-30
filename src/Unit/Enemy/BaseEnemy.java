@@ -10,6 +10,7 @@ import Utils.UnitState;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.scene.image.Image;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -18,10 +19,9 @@ import java.util.List;
 public abstract class BaseEnemy extends BaseUnit {
     public Timeline checking;
     public Timeline moving;
-    protected int cooldown;
     private boolean init = false;
-    public BaseEnemy(int attack, int defense, int hp, int speed, int attackSpeed, int cost, String name, double range, String imageUrl, int attackCooldown, int attackAnimationTime) {
-        super(attack, defense, hp, speed, attackSpeed, cost,  name, range, imageUrl, attackCooldown, attackAnimationTime);
+    public BaseEnemy(int attack, int defense, int hp, int speed, String name, double range, String imageUrl, int attackCooldown, int attackAnimationTime, int deadAnimationTime) {
+        super(attack, defense, hp, speed,  name, range, imageUrl, attackCooldown, attackAnimationTime, deadAnimationTime);
         setMoving(getSpeed());
     }
 
@@ -98,7 +98,6 @@ public abstract class BaseEnemy extends BaseUnit {
         int damage = getAttack() - hero.getDefense();
         if(damage > 0) {
             hero.setHp(hero.getHp() - damage);
-            System.out.println(hero.getHp());
             if(hero.getHp() <= 0) {
                 hero.destroyed();
             }
@@ -124,13 +123,21 @@ public abstract class BaseEnemy extends BaseUnit {
     }
 
     public void destroyed() {
-        if(checking != null) {
-            checking.stop();
+        if (!getState().equals(UnitState.DEAD)) {
+            if (checking != null) {
+                checking.stop();
+            }
+            if (moving != null) {
+                moving.stop();
+            }
+            GameController.getInstance().getEnemies().remove(this);
+            if (!getName().equals("EnemyTower")) {
+                getImageView().setImage(new Image(getName() + "/dead.gif"));
+                Timeline delete = new Timeline(new KeyFrame(Duration.millis(getDeadAnimationTime()), e -> {
+                    GameController.getInstance().getGameMap().getChildren().remove(getImageView());
+                }));
+                delete.play();
+            }
         }
-        if(moving != null) {
-            moving.stop();
-        }
-        setState(UnitState.DEAD);
-        GameController.getInstance().getHeroes().remove(this);
     }
 }

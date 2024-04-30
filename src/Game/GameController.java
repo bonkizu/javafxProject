@@ -47,7 +47,8 @@ public class GameController {
         setMoney(0);
         setIncome(50);
         startMoneySpawn();
-        startEnemySpawn();
+//        startEnemySpawn();
+        spawn(new NightWar());
         checkGameOver();
     }
 
@@ -70,7 +71,7 @@ public class GameController {
     }
 
     private void startEnemySpawn() {
-        enemySpawn = new Timeline(new KeyFrame(Duration.millis(2000), e -> {
+        enemySpawn = new Timeline(new KeyFrame(Duration.millis(3000), e -> {
             ArrayList<BaseEnemy> allEnemies = new ArrayList<>();
             allEnemies.add(new NightWar());
             allEnemies.add(new FishEye());
@@ -113,7 +114,7 @@ public class GameController {
         enemyTowerHP.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         getGameMap().getChildren().add(heroTowerHP);
         getGameMap().getChildren().add(enemyTowerHP);
-        gameOver = new Timeline(new KeyFrame(Duration.millis(10), e -> {
+        gameOver = new Timeline(new KeyFrame(Duration.millis(100), e -> {
             heroTowerHP.setText(heroTower.getHp() + "/10000");
             enemyTowerHP.setText(enemyTower.getHp() + "/10000");
             if (heroTower.getHp() <= 0 || enemyTower.getHp() <= 0) {
@@ -189,7 +190,7 @@ public class GameController {
     public void spawn(BaseEnemy enemy) {
         gameMap.getChildren().add(enemy.getImageView());
         enemy.getImageView().setScaleX(-1);
-        enemy.getImageView().setTranslateX(1700);
+        enemy.getImageView().setTranslateX(1800);
         enemy.initialize();
         enemy.move();
         enemies.add(enemy);

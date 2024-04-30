@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 public class Golem extends BaseHero implements SpecialEffect {
     public Golem() {
-        super(200, 80, 220, 60, 10, 0, 500, "Golem", 1.4, "Golem/idle.gif", 700, 1600);
+        super(100, 80, 220, 60, 0, 500, "Golem", 1.4, "Golem/idle.gif", 700, 1600, 1000);
         getImageView().setFitWidth(200);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(150);
@@ -47,15 +47,5 @@ public class Golem extends BaseHero implements SpecialEffect {
             }
         }));
         addEffect.play();
-    }
-
-    @Override
-    public void destroyed() {
-        super.destroyed();
-        getImageView().setImage(new Image("Golem/dead.gif"));
-        Timeline delete = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
-            GameController.getInstance().getGameMap().getChildren().remove(getImageView());
-        }));
-        delete.play();
     }
 }

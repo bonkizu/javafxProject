@@ -13,7 +13,7 @@ import javafx.util.Duration;
 public class Drone extends BaseHero implements SpecialEffect {
 
     public Drone() {
-        super(100, 20, 100, 60, 10, 0, 500, "Drone", 2.4, "Drone/idle.gif", 100, 1600);
+        super(600, 20, 100, 60, 0, 500, "Drone", 2.4, "Drone/idle.gif", 100, 1600, 2400);
         getImageView().setFitWidth(150);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(150);
@@ -43,15 +43,5 @@ public class Drone extends BaseHero implements SpecialEffect {
             }
         }));
         addEffect.play();
-    }
-
-    @Override
-    public void destroyed() {
-        super.destroyed();
-        getImageView().setImage(new Image("Drone/dead.gif"));
-        Timeline delete = new Timeline(new KeyFrame(Duration.millis(2400), e -> {
-            GameController.getInstance().getGameMap().getChildren().remove(getImageView());
-        }));
-        delete.play();
     }
 }

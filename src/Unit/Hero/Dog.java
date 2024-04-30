@@ -13,7 +13,7 @@ import javafx.util.Duration;
 public class Dog extends BaseHero implements SpecialEffect {
 
     public Dog() {
-        super(300, 40, 100, 60, 10, 0, 500, "Dog", 1.5, "Dog/idle.gif", 400, 1600);
+        super(800, 40, 400, 60, 0, 500, "Dog", 1.5, "Dog/idle.gif", 800, 1600, 1800);
         getImageView().setFitWidth(200);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(150);
@@ -42,15 +42,5 @@ public class Dog extends BaseHero implements SpecialEffect {
             }
         }));
         addEffect.play();
-    }
-
-    @Override
-    public void destroyed() {
-        super.destroyed();
-        getImageView().setImage(new Image("Dog/dead.gif"));
-        Timeline delete = new Timeline(new KeyFrame(Duration.millis(1800), e -> {
-            GameController.getInstance().getGameMap().getChildren().remove(getImageView());
-        }));
-        delete.play();
     }
 }

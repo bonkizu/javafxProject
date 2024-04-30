@@ -12,7 +12,7 @@ import javafx.util.Duration;
 
 public class Robot extends BaseHero implements SpecialEffect {
     public Robot() {
-        super(400, 100, 600, 60, 10, 0, 500, "Robot", 2.8, "Robot/idle.gif", 1000, 1600);
+        super(900, 100, 1000, 60, 0, 500, "Robot", 2.8, "Robot/idle.gif", 1000, 1600, 2000);
         getImageView().setFitWidth(300);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(120);
@@ -40,15 +40,5 @@ public class Robot extends BaseHero implements SpecialEffect {
             }
         }));
         addEffect.play();
-    }
-
-    @Override
-    public void destroyed() {
-        super.destroyed();
-        getImageView().setImage(new Image("Robot/dead.gif"));
-        Timeline delete = new Timeline(new KeyFrame(Duration.millis(2000), e -> {
-            GameController.getInstance().getGameMap().getChildren().remove(getImageView());
-        }));
-        delete.play();
     }
 }

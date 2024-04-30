@@ -3,15 +3,13 @@ package Unit.Hero;
 import Game.GameController;
 import Unit.BaseUnit;
 import Unit.Enemy.BaseEnemy;
-import Unit.Type.Attackable;
 import Unit.Type.SpecialEffect;
 import Utils.GameUtils;
 import Utils.UnitState;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -21,9 +19,11 @@ public abstract class BaseHero extends BaseUnit {
     public Timeline checking;
     public Timeline moving;
     protected int cooldown;
+    protected int cost;
     private boolean init = false;
-    public BaseHero(int attack, int defense, int hp, int speed, int attackSpeed, int cost, int cooldown, String name, double range, String imageUrl, int attackCooldown, int attackAnimationTime) {
-        super(attack, defense, hp, speed, attackSpeed, cost,  name, range, imageUrl, attackCooldown, attackAnimationTime);
+    public BaseHero(int attack, int defense, int hp, int speed, int cost, int cooldown, String name, double range, String imageUrl, int attackCooldown, int attackAnimationTime, int deadAnimationTime) {
+        super(attack, defense, hp, speed,  name, range, imageUrl, attackCooldown, attackAnimationTime, deadAnimationTime);
+        setCost(cost);
         setCooldown(cooldown);
         setMoving(getSpeed());
     }
@@ -64,6 +64,7 @@ public abstract class BaseHero extends BaseUnit {
                         Timeline attackA = new Timeline(new KeyFrame(Duration.millis(getAttackAnimationTime()), e -> {
                             if(getHp() > 0) {
                                 attack(enemy);
+                                System.out.println(enemy.getName() + " " + enemy.getHp());
                             }
                         }));
                         attackA.play();
@@ -99,19 +100,11 @@ public abstract class BaseHero extends BaseUnit {
 
     private void attack(BaseEnemy enemy) {
         int damage = getAttack() - enemy.getDefense();
-        System.out.println("Hero " + this.getName() + " attack to " + enemy.getName());
         if(damage > 0) {
             enemy.setHp(enemy.getHp() - damage);
-            //check damage from hero
-            System.out.println("Enemy " + enemy.getName() + " get attacked " + enemy.getHp());
             if(enemy.getHp() <= 0) {
                 enemy.destroyed();
-                ////check enemy dead
-                System.out.println("Enemy " + enemy.getName() + " is dead");
             }
-        }
-        else{
-            System.out.println("No Damage");
         }
     }
 
@@ -126,14 +119,23 @@ public abstract class BaseHero extends BaseUnit {
     }
 
     public void destroyed() {
-        if(checking != null) {
-            checking.stop();
+        if(!getState().equals(UnitState.DEAD)){
+            setState(UnitState.DEAD);
+            if(checking != null) {
+                checking.stop();
+            }
+            if(moving != null) {
+                moving.stop();
+            }
+            GameController.getInstance().getHeroes().remove(this);
+            if(!getName().equals("HeroTower")) {
+                getImageView().setImage(new Image(getName() + "/dead.gif"));
+                Timeline delete = new Timeline(new KeyFrame(Duration.millis(getDeadAnimationTime()), e -> {
+                    GameController.getInstance().getGameMap().getChildren().remove(getImageView());
+                }));
+                delete.play();
+            }
         }
-        if(moving != null) {
-            moving.stop();
-        }
-        setState(UnitState.DEAD);
-        GameController.getInstance().getHeroes().remove(this);
     }
 
     @Override
@@ -153,6 +155,14 @@ public abstract class BaseHero extends BaseUnit {
 
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
 

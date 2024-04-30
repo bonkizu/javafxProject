@@ -19,23 +19,20 @@ public abstract class BaseUnit {
     private int defense;
     private int hp;
     private int speed;
-    private int cost;
-    private int attackSpeed;
     private String name;
     private double range;
     private ImageView imageView;
     private UnitState state;
     private int attackCooldown;
     private int attackAnimationTime;
+    private int deadAnimationTime;
 
-    public BaseUnit(int attack, int defense, int hp, int speed, int attackSpeed, int cost, String name, double range, String imageUrl, int attackCooldown, int attackAnimationTime) {
+    public BaseUnit(int attack, int defense, int hp, int speed, String name, double range, String imageUrl, int attackCooldown, int attackAnimationTime, int deadAnimationTime) {
         setAttack(attack);
         setDefense(defense);
         setHp(hp);
         setSpeed(speed);
-        setAttackSpeed(attackSpeed);
         setName(name);
-        setCost(cost);
         setRange(range);
         setImageView(imageUrl);
         state = UnitState.RUNNING;
@@ -43,14 +40,7 @@ public abstract class BaseUnit {
         getImageView().setPreserveRatio(true);
         setAttackCooldown(attackCooldown);
         setAttackAnimationTime(attackAnimationTime);
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
+        setDeadAnimationTime(deadAnimationTime);
     }
 
     protected abstract void setMoving(int speed);
@@ -87,14 +77,6 @@ public abstract class BaseUnit {
 
     public void setSpeed(int speed) {
         this.speed = speed;
-    }
-
-    public int getAttackSpeed() {
-        return attackSpeed;
-    }
-
-    public void setAttackSpeed(int attackSpeed) {
-        this.attackSpeed = attackSpeed;
     }
 
     public String getName() {
@@ -150,5 +132,13 @@ public abstract class BaseUnit {
 
     public void setAttackAnimationTime(int attackAnimationTime) {
         this.attackAnimationTime = attackAnimationTime;
+    }
+
+    public int getDeadAnimationTime() {
+        return deadAnimationTime;
+    }
+
+    public void setDeadAnimationTime(int deadAnimationTime) {
+        this.deadAnimationTime = deadAnimationTime;
     }
 }

@@ -12,7 +12,7 @@ import javafx.util.Duration;
 public class Spider extends BaseHero {
 
     public Spider() {
-        super(100, 30, 200, 60, 10, 0, 500, "Spider", 0.9, "Spider/idle.gif", 200, 1600);
+        super(600, 30, 300, 60, 0, 500, "Spider", 0.9, "Spider/idle.gif", 200, 1600, 1800);
         getImageView().setFitWidth(150);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(135);
@@ -21,15 +21,5 @@ public class Spider extends BaseHero {
     @Override
     public BaseHero clone() {
         return new Spider();
-    }
-
-    @Override
-    public void destroyed() {
-        super.destroyed();
-        getImageView().setImage(new Image("Spider/dead.gif"));
-        Timeline delete = new Timeline(new KeyFrame(Duration.millis(1800), e -> {
-            GameController.getInstance().getGameMap().getChildren().remove(getImageView());
-        }));
-        delete.play();
     }
 }

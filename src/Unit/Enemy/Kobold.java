@@ -13,7 +13,7 @@ import javafx.util.Duration;
 
 public class Kobold extends BaseEnemy implements SpecialEffect {
     public Kobold() {
-        super(300, 40, 200, 60, 10, 0, "Kobold", 2, "Kobold/idle.gif",500, 1600);
+        super(300, 40, 200, 60, "Kobold", 2, "Kobold/idle.gif",500, 1600, 1400);
         getImageView().setFitWidth(150);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(135);
@@ -39,15 +39,5 @@ public class Kobold extends BaseEnemy implements SpecialEffect {
             }
         }));
         addEffect.play();
-    }
-
-    @Override
-    public void destroyed() {
-        super.destroyed();
-        getImageView().setImage(new Image("Kobold/dead.gif"));
-        Timeline delete = new Timeline(new KeyFrame(Duration.millis(2000), e -> {
-            GameController.getInstance().getGameMap().getChildren().remove(getImageView());
-        }));
-        delete.play();
     }
 }
