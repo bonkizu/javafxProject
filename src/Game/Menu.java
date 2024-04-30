@@ -39,12 +39,10 @@ public class Menu extends VBox {
         instance = this;
     }
     public void startNewGame(){
-        GameController.getInstance().reset();
         GameController gameInstance = GameController.getInstance();
         primaryStage.setScene(new Scene(gameInstance.getGameGui(), 1280, 720));
     }
     public static Menu getInstance() {
-        if(instance==null) return new Menu(primaryStage);
         return instance;
     }
 }

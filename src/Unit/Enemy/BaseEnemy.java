@@ -28,6 +28,7 @@ public abstract class BaseEnemy extends BaseUnit {
     public void initializeEnemyLogic() {
         enemyLogic = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             List<BaseHero> heroList = new ArrayList<>(GameController.getInstance().getHeroes());
+            System.out.println("abc");
             switch (getState()) {
                 case RUNNING:
                     if(!isMoving) {

@@ -47,8 +47,11 @@ public class GameController {
         setMoney(0);
         setIncome(50);
         startMoneySpawn();
-        startEnemySpawn();
+//        startEnemySpawn();
+        spawn(new NightWar());
         checkGameOver();
+
+
     }
 
     private void startMoneySpawn() {
@@ -119,10 +122,10 @@ public class GameController {
             heroTowerHP.setText(heroTower.getHp() + "/" + heroTower.getMaxHp());
             enemyTowerHP.setText(enemyTower.getHp() + "/" + enemyTower.getMaxHp());
             if (heroTower.getHp() <= 0 || enemyTower.getHp() <= 0) {
-                enemySpawn.stop();
+                if (enemySpawn != null) enemySpawn.stop();
                 for (BaseEnemy enemy : enemies) {
-                    if(enemy.equals(enemyTower)) continue;
-                    if(enemyTower.getHp() <= 0) {
+                    if (enemy.equals(enemyTower)) continue;
+                    if (enemyTower.getHp() <= 0) {
                         enemy.setState(UnitState.DEAD);
                         continue;
                     }
@@ -131,8 +134,8 @@ public class GameController {
                     enemy.getImageView().setImage(new Image(enemy.getName() + "/idle.gif"));
                 }
                 for (BaseHero hero : heroes) {
-                    if(hero.equals(heroTower)) continue;
-                    if(heroTower.getHp() <= 0) {
+                    if (hero.equals(heroTower)) continue;
+                    if (heroTower.getHp() <= 0) {
                         hero.setState(UnitState.DEAD);
                         continue;
                     }
@@ -140,8 +143,11 @@ public class GameController {
                     hero.stopMoving();
                     hero.getImageView().setImage(new Image(hero.getName() + "/idle.gif"));
                 }
-                heroTower.getImageView().setImage(new Image(heroTower.getName() + "/dead.gif"));
-                enemyTower.getImageView().setImage(new Image(enemyTower.getName() + "/dead.gif"));
+                if (heroTower.getHp() <= 0)
+                    heroTower.getImageView().setImage(new Image(heroTower.getName() + "/dead.gif"));
+                else {
+                    enemyTower.getImageView().setImage(new Image(enemyTower.getName() + "/dead.gif"));
+                }
                 Text gameOverText = new Text("Game Over");
                 gameOverText.setFont(Font.font("Arial", FontWeight.BOLD, 36));
                 gameOverText.setFill(Color.RED);
@@ -153,7 +159,10 @@ public class GameController {
                 gameOverText2.setStrokeWidth(1.5);
 
                 Button newGameButton = new Button("New Game");
-                newGameButton.setOnAction(event -> Menu.getInstance().startNewGame());
+                newGameButton.setOnAction(event -> {
+                    getInstance().reset();
+                    Menu.getInstance().startNewGame();
+                });
 
                 gameOverText.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
                 gameOverText2.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");

@@ -12,10 +12,10 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-//        Menu menu = new Menu(stage);
-        stage.setScene(new Scene(GameController.getInstance().getGameGui(), 1280, 720));
+        Menu menu = new Menu(stage);
+        stage.setScene(new Scene(menu, 1280, 720));
         stage.getIcons().add(new Image("padoru.gif"));
-        stage.setTitle("Rangers Line");
+        stage.setTitle("Line Rangers");
         stage.show();
     }
 
