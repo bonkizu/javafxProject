@@ -77,11 +77,15 @@ public abstract class BaseHero extends BaseUnit {
     }
 
     public void playHeroLogic() {
-        heroLogic.play();
+        if(heroLogic != null) {
+            heroLogic.play();
+        }
     }
 
     public void stopHeroLogic() {
-        heroLogic.stop();
+        if(heroLogic != null) {
+            heroLogic.stop();
+        }
     }
 
     public void initializeHeroMove() {
@@ -91,12 +95,16 @@ public abstract class BaseHero extends BaseUnit {
         heroMove.setCycleCount(Timeline.INDEFINITE);
     }
 
-    private void move() {
-        heroMove.play();
+    public void move() {
+        if(heroMove != null) {
+            heroMove.play();
+        }
     }
 
-    private void stopMoving() {
-        heroMove.stop();
+    public void stopMoving() {
+        if(heroMove != null) {
+            heroMove.stop();
+        }
     }
 
     private void attack(BaseEnemy enemy) {
@@ -105,7 +113,6 @@ public abstract class BaseHero extends BaseUnit {
         }
         int damage = getAttack() - enemy.getDefense();
         Timeline attackAnimationPlay = new Timeline(new KeyFrame(Duration.millis(getAttackAnimationTime()), e -> {
-            System.out.println("enemy hp " + enemy.getHp());
             if(getState() != UnitState.DEAD) {
                 enemy.setHp(enemy.getHp() - damage);
                 if (enemy.getHp() <= 0) {

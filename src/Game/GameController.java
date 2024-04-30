@@ -47,8 +47,7 @@ public class GameController {
         setMoney(0);
         setIncome(50);
         startMoneySpawn();
-//        startEnemySpawn();
-        spawn(new NightWar());
+        startEnemySpawn();
         checkGameOver();
     }
 
@@ -114,10 +113,21 @@ public class GameController {
         enemyTowerHP.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         getGameMap().getChildren().add(heroTowerHP);
         getGameMap().getChildren().add(enemyTowerHP);
-        gameOver = new Timeline(new KeyFrame(Duration.millis(100), e -> {
+        gameOver = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             heroTowerHP.setText(heroTower.getHp() + "/" + heroTower.getMaxHp());
             enemyTowerHP.setText(enemyTower.getHp() + "/" + enemyTower.getMaxHp());
             if (heroTower.getHp() <= 0 || enemyTower.getHp() <= 0) {
+                enemySpawn.stop();
+                for (BaseEnemy enemy : enemies) {
+                    enemy.stopEnemyLogic();
+                    enemy.stopMoving();
+                    enemy.getImageView().setImage(new Image(enemy.getName() + "/idle.gif"));
+                }
+                for (BaseHero hero : heroes) {
+                    hero.stopHeroLogic();
+                    hero.stopMoving();
+                    hero.getImageView().setImage(new Image(hero.getName() + "/idle.gif"));
+                }
                 Text gameOverText = new Text("Game Over");
                 gameOverText.setFont(Font.font("Arial", FontWeight.BOLD, 36));
                 gameOverText.setFill(Color.RED);
@@ -140,6 +150,7 @@ public class GameController {
                 gameOverBox.getChildren().addAll(gameOverText, gameOverText2, newGameButton);
 
                 gameGui.getChildren().add(gameOverBox);
+                gameOver.stop();
             }
         }));
         gameOver.setCycleCount(Timeline.INDEFINITE);

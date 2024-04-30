@@ -26,7 +26,6 @@ public class GameGui extends StackPane {
         setPrefHeight(720);
         setPrefWidth(1280);
 
-
         ImageView coin = new ImageView("coin.png");
         coin.setFitHeight(30);
         coin.setPreserveRatio(true);
@@ -65,6 +64,12 @@ public class GameGui extends StackPane {
         scrollPane.setVmax(0);
         scrollPane.setPannable(true);
         scrollPane.setCursor(Cursor.DEFAULT);
+
+//        ImageView bg = new ImageView("BG.png");
+//        setAlignment(bg, Pos.TOP_CENTER);
+//        bg.setFitHeight(480);
+//        bg.setFitWidth(2000);
+//        gameMap.getChildren().add(bg);
 
 
         setAlignment(heroesPanel, Pos.BOTTOM_CENTER);

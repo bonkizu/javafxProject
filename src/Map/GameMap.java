@@ -13,7 +13,7 @@ public class GameMap extends GridPane {
         setPrefHeight(720);
         setPrefWidth(2000);
         setBackground(Background.fill(Color.GRAY));
-//        setStyle("-fx-background-image: url('msBg.png');" +
+//        setStyle("-fx-background-image: url('BG.png');" +
 //                "-fx-background-size: cover;");
     }
 
