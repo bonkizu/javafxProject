@@ -16,11 +16,12 @@ import javafx.scene.layout.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class GameGui extends StackPane {
     private final GameMap gameMap = new GameMap();
-    private Text playerMoney = new Text("Player's money: ");
+    private Text playerMoney = new Text("0");
 
     public GameGui() {
         setPrefHeight(720);
@@ -131,6 +132,7 @@ public class GameGui extends StackPane {
         return gameMap;
     }
     public void setPlayerMoney(int money){
-        playerMoney.setText("Player's money: " + money);
+        playerMoney.setText(""+money);
+        playerMoney.setFont(Font.font("Arial", FontWeight.BOLD, 20));
     }
 }

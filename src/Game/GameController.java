@@ -11,10 +11,14 @@ import javafx.animation.Timeline;
 import javafx.geometry.Point3D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -147,7 +151,7 @@ public class GameController {
                 }
                 Text gameOverText = new Text("Game Over");
                 gameOverText.setFont(Font.font("Arial", FontWeight.BOLD, 36));
-                gameOverText.setFill(Color.RED);
+                gameOverText.setFill(Color.DARKCYAN);
                 gameOverText.setStrokeWidth(1.5);
 
                 Text gameOverText2 = new Text(heroTower.getHp() <= 0 ? "You Lose" : "You Win");
@@ -155,21 +159,31 @@ public class GameController {
                 gameOverText2.setFill(heroTower.getHp() <= 0 ? Color.RED : Color.GREEN);
                 gameOverText2.setStrokeWidth(1.5);
 
-                Button newGameButton = new Button("New Game");
-                newGameButton.setOnAction(event -> {
+                MenuItem newGameButton = new MenuItem("New Game",() -> {
                     getInstance().reset();
                     Menu.getInstance().startNewGame();
                 });
-
                 gameOverText.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
                 gameOverText2.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-                newGameButton.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
+                Rectangle background = new Rectangle(400, 200);
+                background.setFill(Color.LIGHTGRAY);
+                background.setStroke(Color.DARKGRAY);
+                background.setStrokeWidth(2);
+                background.setArcWidth(20);
+                background.setArcHeight(20);
 
                 VBox gameOverBox = new VBox(20);
                 gameOverBox.setAlignment(Pos.CENTER);
                 gameOverBox.getChildren().addAll(gameOverText, gameOverText2, newGameButton);
+                DropShadow dropShadow = new DropShadow();
+                dropShadow.setRadius(5); // Adjust the radius to make the shadow softer
+                dropShadow.setColor(Color.rgb(0, 0, 0, 0.5));
+                gameOverBox.setEffect(dropShadow);
+                StackPane gameOverPane = new StackPane();
+                gameOverPane.getChildren().addAll(background, gameOverBox);
 
-                gameGui.getChildren().add(gameOverBox);
+                gameGui.getChildren().add(gameOverPane);
                 gameOver.stop();
             }
         }));
