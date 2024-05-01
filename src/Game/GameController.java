@@ -47,11 +47,8 @@ public class GameController {
         setMoney(0);
         setIncome(50);
         startMoneySpawn();
-//        startEnemySpawn();
-        spawn(new NightWar());
+        startEnemySpawn();
         checkGameOver();
-
-
     }
 
     private void startMoneySpawn() {
@@ -73,7 +70,7 @@ public class GameController {
     }
 
     private void startEnemySpawn() {
-        enemySpawn = new Timeline(new KeyFrame(Duration.millis(2000), e -> {
+        enemySpawn = new Timeline(new KeyFrame(Duration.millis(4000), e -> {
             ArrayList<BaseEnemy> allEnemies = new ArrayList<>();
             allEnemies.add(new NightWar());
             allEnemies.add(new FishEye());
@@ -81,7 +78,7 @@ public class GameController {
             allEnemies.add(new Rat());
             allEnemies.add(new Soulyer());
 
-            double[] probabilities = {0.1, 0.20, 0.25, 0.25, 0.2};
+            double[] probabilities = {0.1, 0.25, 0.25, 0.25, 0.15};
 
             // Generate a random number between 0 and 1
             double rand = Math.random();

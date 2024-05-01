@@ -51,12 +51,7 @@ public abstract class BaseHero extends BaseUnit {
                     stopMoving();
                     isMoving = false;
                     setImageView(getName() + "/attack.gif");
-                    for(BaseEnemy enemy : enemyList) {
-                        if (GameUtils.inRange(this, enemy)) {
-                            attack(enemy);
-                            break;
-                        }
-                    }
+                    attack();
                     isCooldown = true;
                     toIdle();
                     setState(UnitState.IDLE);
@@ -107,16 +102,20 @@ public abstract class BaseHero extends BaseUnit {
         }
     }
 
-    private void attack(BaseEnemy enemy) {
+    private void attack() {
         if(this.getClass().getInterfaces().length > 0 && this.getClass().getInterfaces()[0] == SpecialEffect.class) {
             ((SpecialEffect) this).showEffect(this);
         }
-        int damage = getAttack() - enemy.getDefense();
         Timeline attackAnimationPlay = new Timeline(new KeyFrame(Duration.millis(getAttackAnimationTime()), e -> {
             if(getState() != UnitState.DEAD) {
-                enemy.setHp(enemy.getHp() - damage);
-                if (enemy.getHp() <= 0) {
-                    enemy.setState(UnitState.DEAD);
+                for(BaseEnemy enemy : GameController.getInstance().getEnemies()) {
+                    if (GameUtils.inRange(this, enemy)) {
+                        int damage = getAttack() - enemy.getDefense();
+                        enemy.setHp(enemy.getHp() - damage);
+                        if (enemy.getHp() <= 0) {
+                            enemy.setState(UnitState.DEAD);
+                        }
+                    }
                 }
             }
         }));

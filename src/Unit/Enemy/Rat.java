@@ -8,7 +8,7 @@ import javafx.util.Duration;
 
 public class Rat extends BaseEnemy {
     public Rat() {
-        super(200, 20, 100, 50, "Rat", 1, "Rat/idle.gif", 500, 1600, 1000);
+        super(200, 20, 100, 50, "Rat", 1, "Rat/idle.gif", 200, 1600, 1000);
         getImageView().setFitWidth(250);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(145);

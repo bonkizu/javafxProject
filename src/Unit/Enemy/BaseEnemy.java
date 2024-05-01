@@ -28,7 +28,6 @@ public abstract class BaseEnemy extends BaseUnit {
     public void initializeEnemyLogic() {
         enemyLogic = new Timeline(new KeyFrame(Duration.millis(10), e -> {
             List<BaseHero> heroList = new ArrayList<>(GameController.getInstance().getHeroes());
-            System.out.println("abc");
             switch (getState()) {
                 case RUNNING:
                     if(!isMoving) {
@@ -47,12 +46,7 @@ public abstract class BaseEnemy extends BaseUnit {
                     stopMoving();
                     isMoving = false;
                     setImageView(getName() + "/attack.gif");
-                    for(BaseHero hero : heroList) {
-                        if (GameUtils.inRange(this, hero)) {
-                            attack(hero);
-                            break;
-                        }
-                    }
+                    attack();
                     isCooldown = true;
                     toIdle();
                     setState(UnitState.IDLE);
@@ -103,16 +97,20 @@ public abstract class BaseEnemy extends BaseUnit {
         }
     }
 
-    private void attack(BaseHero hero) {
+    private void attack() {
         if(this.getClass().getInterfaces().length > 0 && this.getClass().getInterfaces()[0] == SpecialEffect.class) {
             ((SpecialEffect) this).showEffect(this);
         }
-        int damage = getAttack() - hero.getDefense();
         Timeline attackAnimationPlay = new Timeline(new KeyFrame(Duration.millis(getAttackAnimationTime()), e -> {
             if(getState() != UnitState.DEAD) {
-                hero.setHp(hero.getHp() - damage);
-                if (hero.getHp() <= 0) {
-                    hero.setState(UnitState.DEAD);
+                for(BaseHero hero : GameController.getInstance().getHeroes()) {
+                    if (GameUtils.inRange(this, hero)) {
+                        int damage = getAttack() - hero.getDefense();
+                        hero.setHp(hero.getHp() - damage);
+                        if (hero.getHp() <= 0) {
+                            hero.setState(UnitState.DEAD);
+                        }
+                    }
                 }
             }
         }));

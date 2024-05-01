@@ -13,7 +13,7 @@ import javafx.util.Duration;
 public class Drone extends BaseHero implements SpecialEffect {
 
     public Drone() {
-        super(600, 20, 100, 60, 0, 500, "Drone", 2.4, "Drone/idle.gif", 100, 1600, 2400);
+        super(100, 20, 200, 50, 100, 500, "Drone", 2.4, "Drone/idle.gif", 200, 1600, 2400);
         getImageView().setFitWidth(150);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(150);

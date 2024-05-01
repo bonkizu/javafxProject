@@ -13,7 +13,7 @@ import javafx.util.Duration;
 public class Dog extends BaseHero implements SpecialEffect {
 
     public Dog() {
-        super(800, 40, 400, 60, 0, 500, "Dog", 1.5, "Dog/idle.gif", 800, 1600, 1800);
+        super(600, 90, 800, 40, 350, 500, "Dog", 1.5, "Dog/idle.gif", 1000, 1600, 1800);
         getImageView().setFitWidth(200);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(150);
