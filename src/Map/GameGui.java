@@ -134,5 +134,6 @@ public class GameGui extends StackPane {
     public void setPlayerMoney(int money){
         playerMoney.setText(""+money);
         playerMoney.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        playerMoney.setFill(Color.WHITE);
     }
 }
