@@ -1,6 +1,7 @@
 package Game;
 
 import javafx.geometry.Pos;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -18,8 +19,9 @@ public class MenuItem extends StackPane {
                     new Stop(0.1, Color.BLACK),
                     new Stop(0.9, Color.BLACK),
                     new Stop(1, Color.DARKBLUE)
-
             });
+            setMaxWidth(200);
+            setMaxHeight(30);
 
             Rectangle bg = new Rectangle(200, 30);
             bg.setOpacity(0.4);
@@ -40,8 +42,7 @@ public class MenuItem extends StackPane {
                 text.setFill(Color.DARKGREY);
             });
             setOnMousePressed(event ->bg.setFill(Color.DARKVIOLET));
-            setOnMouseClicked( event-> onClickAction.run());
+            setOnMouseClicked(event-> onClickAction.run());
             setOnMouseReleased(event -> bg.setFill(gradient));
-
         }
     }

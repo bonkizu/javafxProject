@@ -8,15 +8,14 @@ import Unit.Hero.HeroTower;
 import Utils.UnitState;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
 import javafx.geometry.Point3D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -74,7 +73,7 @@ public class GameController {
     }
 
     private void startEnemySpawn() {
-        enemySpawn = new Timeline(new KeyFrame(Duration.millis(4000), e -> {
+        enemySpawn = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
             ArrayList<BaseEnemy> allEnemies = new ArrayList<>();
             allEnemies.add(new NightWar());
             allEnemies.add(new FishEye());
@@ -181,6 +180,8 @@ public class GameController {
                 dropShadow.setColor(Color.rgb(0, 0, 0, 0.5));
                 gameOverBox.setEffect(dropShadow);
                 StackPane gameOverPane = new StackPane();
+                gameOverPane.setMaxWidth(400);
+                gameOverPane.setMaxHeight(200);
                 gameOverPane.getChildren().addAll(background, gameOverBox);
 
                 gameGui.getChildren().add(gameOverPane);
