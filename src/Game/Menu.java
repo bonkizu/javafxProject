@@ -6,6 +6,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -43,24 +44,24 @@ public class Menu extends VBox {
         bg.setArcHeight(30);
         bg.setFill(null);
 
-        Text text = new Text("Line Rangers");
-        Stop[] stops = new Stop[] {
+        Text text = new Text("Ranger Line");
+        Stop[] stops = new Stop[]{
                 new Stop(0, Color.BLUE),
                 new Stop(1, Color.BLACK),
         };
         LinearGradient gradient = new LinearGradient(0, 0, 0, 1, true, null, stops);
         text.setFill(gradient);
+        text.setFont(Font.font("Times New Roman", FontWeight.EXTRA_BOLD, 50));
 
-        text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 50));
         stackPane.getChildren().addAll(bg, text);
         stackPane.setTranslateX(50);
         stackPane.setTranslateY(200);
 
-        MenuBox vbox = new MenuBox(new MenuItem("New Game", () -> startNewGame()), new MenuItem("Exit", () -> System.exit(0)));
+        MenuBox vbox = new MenuBox(new MenuItem("Play Game", () -> startNewGame()), new MenuItem("Exit", () -> System.exit(0)));
         vbox.setTranslateX(130);
         vbox.setTranslateY(300);
-        root.getChildren().addAll(stackPane, vbox);
 
+        root.getChildren().addAll(stackPane, vbox);
         getChildren().add(root);
         instance = this;
     }

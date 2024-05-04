@@ -9,7 +9,7 @@ public class MenuBox extends VBox {
     public MenuBox(MenuItem... items) {
         for (MenuItem item : items) {
             Line sep = new Line();
-            setMargin(item,new Insets(0,0,10,0));
+            setMargin(item, new Insets(0, 0, 10, 0));
             getChildren().addAll(item, sep);
         }
     }

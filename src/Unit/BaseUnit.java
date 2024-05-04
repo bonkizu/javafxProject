@@ -104,12 +104,13 @@ public abstract class BaseUnit {
     public ImageView getImageView() {
         return imageView;
     }
+
     public String getImageUrl() {
         return imageView.getImage().getUrl();
     }
 
     public void setImageView(String imageUrl) {
-        if(imageView == null) {
+        if (imageView == null) {
             imageView = new ImageView(new Image(imageUrl));
         } else {
             imageView.setImage(new Image(imageUrl));

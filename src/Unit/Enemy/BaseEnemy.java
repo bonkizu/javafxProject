@@ -21,8 +21,9 @@ public abstract class BaseEnemy extends BaseUnit {
     private Timeline enemyMove;
     private boolean isCooldown = false;
     private boolean isMoving = false;
+
     public BaseEnemy(int attack, int defense, int hp, int speed, String name, double range, String imageUrl, int attackCooldown, int attackAnimationTime, int deadAnimationTime) {
-        super(attack, defense, hp, speed,  name, range, imageUrl, attackCooldown, attackAnimationTime, deadAnimationTime);
+        super(attack, defense, hp, speed, name, range, imageUrl, attackCooldown, attackAnimationTime, deadAnimationTime);
     }
 
     public void initializeEnemyLogic() {
@@ -30,12 +31,12 @@ public abstract class BaseEnemy extends BaseUnit {
             List<BaseHero> heroList = new ArrayList<>(GameController.getInstance().getHeroes());
             switch (getState()) {
                 case RUNNING:
-                    if(!isMoving) {
+                    if (!isMoving) {
                         move();
                         setImageView(getName() + "/run.gif");
                         isMoving = true;
                     }
-                    for(BaseHero hero : heroList) {
+                    for (BaseHero hero : heroList) {
                         if (GameUtils.inRange(this, hero)) {
                             setState(UnitState.ATTACKING);
                             break;
@@ -52,7 +53,7 @@ public abstract class BaseEnemy extends BaseUnit {
                     setState(UnitState.IDLE);
                     break;
                 case IDLE:
-                    if(!isCooldown) {
+                    if (!isCooldown) {
                         setState(UnitState.RUNNING);
                     }
                     break;
@@ -67,13 +68,13 @@ public abstract class BaseEnemy extends BaseUnit {
     }
 
     public void playEnemyLogic() {
-        if(enemyLogic != null) {
+        if (enemyLogic != null) {
             enemyLogic.play();
         }
     }
 
     public void stopEnemyLogic() {
-        if(enemyLogic != null) {
+        if (enemyLogic != null) {
             enemyLogic.stop();
         }
     }
@@ -86,24 +87,24 @@ public abstract class BaseEnemy extends BaseUnit {
     }
 
     public void move() {
-        if(enemyMove != null) {
+        if (enemyMove != null) {
             enemyMove.play();
         }
     }
 
     public void stopMoving() {
-        if(enemyMove != null) {
+        if (enemyMove != null) {
             enemyMove.stop();
         }
     }
 
     private void attack() {
-        if(this.getClass().getInterfaces().length > 0 && this.getClass().getInterfaces()[0] == SpecialEffect.class) {
+        if (this.getClass().getInterfaces().length > 0 && this.getClass().getInterfaces()[0] == SpecialEffect.class) {
             ((SpecialEffect) this).showEffect(this);
         }
         Timeline attackAnimationPlay = new Timeline(new KeyFrame(Duration.millis(getAttackAnimationTime()), e -> {
-            if(getState() != UnitState.DEAD) {
-                for(BaseHero hero : GameController.getInstance().getHeroes()) {
+            if (getState() != UnitState.DEAD) {
+                for (BaseHero hero : GameController.getInstance().getHeroes()) {
                     if (GameUtils.inRange(this, hero)) {
                         int damage = getAttack() - hero.getDefense();
                         hero.setHp(hero.getHp() - damage);
@@ -137,7 +138,7 @@ public abstract class BaseEnemy extends BaseUnit {
 
     private void toIdle() {
         Timeline toIdle = new Timeline(new KeyFrame(Duration.millis(getAttackAnimationTime()), e -> {
-            if(getState() != UnitState.DEAD) {
+            if (getState() != UnitState.DEAD) {
                 setImageView(getName() + "/idle.gif");
                 setCooldown();
             }

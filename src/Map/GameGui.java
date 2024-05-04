@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.animation.AnimationTimer;
@@ -22,6 +23,8 @@ import javafx.scene.text.Text;
 public class GameGui extends StackPane {
     private final GameMap gameMap = new GameMap();
     private Text playerMoney = new Text("0");
+    private boolean isVolumeOn = true;
+    private ImageView volumeImg;
 
     public GameGui() {
         setPrefHeight(720);
@@ -46,8 +49,6 @@ public class GameGui extends StackPane {
         FlowPane heroesPanel = new FlowPane();
         heroesPanel.setHgap(10);
         heroesPanel.setPrefWrapLength(500);
-//        heroesPanel.setStyle("-fx-background-color: transparent;");
-//        heroesPanel.setStyle("-fx-background-color: rgba(255, 153, 102,  0.5);");
 
         heroesPanel.setMaxWidth(900);
         heroesPanel.setMaxHeight(150);
@@ -75,23 +76,36 @@ public class GameGui extends StackPane {
         setAlignment(heroesPanel, Pos.BOTTOM_CENTER);
         setMargin(heroesPanel, new Insets(10, 10, 50, 10));
 
-//        ImageView underG = new ImageView("underG.png");
-//        underG.setFitHeight(250);
-//        underG.setFitWidth(2000);
-//        setAlignment(underG, Pos.BOTTOM_CENTER);
-        getChildren().addAll(scrollPane, heroesPanel, moneyBox);
+        volumeImg = new ImageView(new Image("volume-up.png"));
+        volumeImg.setOnMouseClicked(event -> {
+            if (!GameController.getInstance().isGameOver()) {
+                if (isVolumeOn) {
+                    GameController.getInstance().stopBgm();
+                } else {
+                    GameController.getInstance().startBgm();
+                }
+            }
+            isVolumeOn = !isVolumeOn;
+            volumeImg.setImage(new Image(isVolumeOn ? "volume-up.png" : "volume-down.png"));
+        });
+        volumeImg.setFitWidth(50);
+        volumeImg.setFitHeight(50);
+        volumeImg.setTranslateX(570);
+        volumeImg.setTranslateY(280);
+        volumeImg.setEffect(new javafx.scene.effect.DropShadow(2, Color.DARKBLUE));
+        getChildren().addAll(scrollPane, heroesPanel, moneyBox, volumeImg);
     }
 
-    private void startCooldownTimer(int CooldownTime, Button button ) {
+    private void startCooldownTimer(int CooldownTime, Button button) {
         button.setDisable(true); // Disable button immediately
 
-        Thread timer = new Thread(()->{
-            try{
+        Thread timer = new Thread(() -> {
+            try {
                 Thread.sleep(CooldownTime);
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            Platform.runLater(()->{
+            Platform.runLater(() -> {
                 button.setDisable(false);
             });
         });
@@ -111,12 +125,12 @@ public class GameGui extends StackPane {
         button.setBackground(Background.fill(Color.TRANSPARENT));
         button.setText("Cost : " + hero.getCost());
         button.setAlignment(Pos.TOP_CENTER);
-        button.setStyle(" -fx-font-weight: bold; -fx-font-size: 20;" );
+        button.setStyle(" -fx-font-weight: bold; -fx-font-size: 20;");
 
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if(!button.isDisabled() && GameController.getInstance().getMoney() >= hero.getCost()){
+                if (!button.isDisabled() && GameController.getInstance().getMoney() >= hero.getCost()) {
                     GameController.getInstance().decreaseMoney(hero.getCost());
                     GameController.getInstance().spawn(hero.clone());
                     startCooldownTimer(hero.getCooldown(), button);
@@ -131,8 +145,9 @@ public class GameGui extends StackPane {
     public GameMap getGameMap() {
         return gameMap;
     }
-    public void setPlayerMoney(int money){
-        playerMoney.setText(""+money);
+
+    public void setPlayerMoney(int money) {
+        playerMoney.setText("" + money);
         playerMoney.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         playerMoney.setFill(Color.WHITE);
     }

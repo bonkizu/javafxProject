@@ -42,6 +42,16 @@ public class GameController {
     private int income;
     private AudioClip bgm;
 
+    private boolean isGameOver;
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
+    }
+
     public GameController() {
         gameGui = new GameGui();
         gameMap = gameGui.getGameMap();
@@ -55,17 +65,21 @@ public class GameController {
         startEnemySpawn();
         checkGameOver();
         setUpBgm();
+        setGameOver(false);
     }
 
     private void setUpBgm() {
         bgm = new AudioClip(ClassLoader.getSystemResource("bgm.mp3").toString());
         bgm.setVolume(0.5);
         bgm.setCycleCount(AudioClip.INDEFINITE);
-        bgm.play();
+        startBgm();
     }
 
-    private void stopBgm() {
+    public void stopBgm() {
         bgm.stop();
+    }
+    public void startBgm() {
+        bgm.play();
     }
 
     private void startMoneySpawn() {
@@ -87,7 +101,7 @@ public class GameController {
     }
 
     private void startEnemySpawn() {
-        enemySpawn = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
+        enemySpawn = new Timeline(new KeyFrame(Duration.millis(4000), e -> {
             ArrayList<BaseEnemy> allEnemies = new ArrayList<>();
             allEnemies.add(new NightWar());
             allEnemies.add(new FishEye());
@@ -162,44 +176,11 @@ public class GameController {
                 else {
                     enemyTower.getImageView().setImage(new Image(enemyTower.getName() + "/dead.gif"));
                 }
-                Text gameOverText = new Text("Game Over");
-                gameOverText.setFont(Font.font("Arial", FontWeight.BOLD, 36));
-                gameOverText.setFill(Color.DARKCYAN);
-                gameOverText.setStrokeWidth(1.5);
 
-                Text gameOverText2 = new Text(heroTower.getHp() <= 0 ? "You Lose" : "You Win");
-                gameOverText2.setFont(Font.font("Arial", FontWeight.BOLD, 36));
-                gameOverText2.setFill(heroTower.getHp() <= 0 ? Color.RED : Color.GREEN);
-                gameOverText2.setStrokeWidth(1.5);
-
-                MenuItem newGameButton = new MenuItem("New Game",() -> {
-                    getInstance().reset();
-                    Menu.getInstance().startNewGame();
-                });
-                gameOverText.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-                gameOverText2.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-
-                Rectangle background = new Rectangle(400, 200);
-                background.setFill(Color.LIGHTGRAY);
-                background.setStroke(Color.DARKGRAY);
-                background.setStrokeWidth(2);
-                background.setArcWidth(20);
-                background.setArcHeight(20);
-
-                VBox gameOverBox = new VBox(20);
-                gameOverBox.setAlignment(Pos.CENTER);
-                gameOverBox.getChildren().addAll(gameOverText, gameOverText2, newGameButton);
-                DropShadow dropShadow = new DropShadow();
-                dropShadow.setRadius(5); // Adjust the radius to make the shadow softer
-                dropShadow.setColor(Color.rgb(0, 0, 0, 0.5));
-                gameOverBox.setEffect(dropShadow);
-                StackPane gameOverPane = new StackPane();
-                gameOverPane.setMaxWidth(400);
-                gameOverPane.setMaxHeight(200);
-                gameOverPane.getChildren().addAll(background, gameOverBox);
-
+                StackPane gameOverPane = generateGameOverPane();
                 gameGui.getChildren().add(gameOverPane);
                 stopBgm();
+                setGameOver(true);
                 gameOver.stop();
             }
         }));
@@ -207,6 +188,44 @@ public class GameController {
         gameOver.play();
     }
 
+    public StackPane generateGameOverPane() {
+        Text gameOverText = new Text("Game Over");
+        gameOverText.setFont(Font.font("Arial", FontWeight.BOLD, 36));
+        gameOverText.setFill(Color.DARKCYAN);
+        gameOverText.setStrokeWidth(1.5);
+
+        Text gameOverText2 = new Text(heroTower.getHp() <= 0 ? "You Lose" : "You Win");
+        gameOverText2.setFont(Font.font("Arial", FontWeight.BOLD, 36));
+        gameOverText2.setFill(heroTower.getHp() <= 0 ? Color.RED : Color.GREEN);
+        gameOverText2.setStrokeWidth(1.5);
+
+        MenuItem newGameButton = new MenuItem("New Game", () -> {
+            getInstance().reset();
+            Menu.getInstance().startNewGame();
+        });
+        gameOverText.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        gameOverText2.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
+        Rectangle background = new Rectangle(400, 200);
+        background.setFill(Color.LIGHTGRAY);
+        background.setStroke(Color.DARKGRAY);
+        background.setStrokeWidth(2);
+        background.setArcWidth(20);
+        background.setArcHeight(20);
+
+        VBox gameOverBox = new VBox(20);
+        gameOverBox.setAlignment(Pos.CENTER);
+        gameOverBox.getChildren().addAll(gameOverText, gameOverText2, newGameButton);
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(5); // Adjust the radius to make the shadow softer
+        dropShadow.setColor(Color.rgb(0, 0, 0, 0.5));
+        gameOverBox.setEffect(dropShadow);
+        StackPane gameOverPane = new StackPane();
+        gameOverPane.setMaxWidth(400);
+        gameOverPane.setMaxHeight(200);
+        gameOverPane.getChildren().addAll(background, gameOverBox);
+        return gameOverPane;
+    }
 
     public static GameController getInstance() {
         if (instance == null) {
