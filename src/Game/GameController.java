@@ -16,6 +16,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -39,6 +40,7 @@ public class GameController {
 
     private int money;
     private int income;
+    private AudioClip bgm;
 
     public GameController() {
         gameGui = new GameGui();
@@ -52,6 +54,18 @@ public class GameController {
         startMoneySpawn();
         startEnemySpawn();
         checkGameOver();
+        setUpBgm();
+    }
+
+    private void setUpBgm() {
+        bgm = new AudioClip(ClassLoader.getSystemResource("bgm.mp3").toString());
+        bgm.setVolume(0.5);
+        bgm.setCycleCount(AudioClip.INDEFINITE);
+        bgm.play();
+    }
+
+    private void stopBgm() {
+        bgm.stop();
     }
 
     private void startMoneySpawn() {
@@ -185,6 +199,7 @@ public class GameController {
                 gameOverPane.getChildren().addAll(background, gameOverBox);
 
                 gameGui.getChildren().add(gameOverPane);
+                stopBgm();
                 gameOver.stop();
             }
         }));
