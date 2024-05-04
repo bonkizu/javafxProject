@@ -216,6 +216,7 @@ class Unit.Hero.Golem {
 }
 class Utils.GameUtils {
 + {static} boolean inRange(BaseUnit,BaseUnit)
++ {static} Image setImageByPath(String)
 }
 
 

@@ -160,7 +160,7 @@ public class GameController {
                     }
                     enemy.stopEnemyLogic();
                     enemy.stopMoving();
-                    enemy.getImageView().setImage(new Image(enemy.getName() + "/idle.gif"));
+                    enemy.getImageView().setImage(GameUtils.setImageByPath(enemy.getName() + "/idle.gif"));
                 }
                 for (BaseHero hero : heroes) {
                     if (hero.equals(heroTower)) continue;
