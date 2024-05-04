@@ -14,7 +14,7 @@ import javafx.util.Duration;
 
 public class Kobold extends BaseEnemy implements SpecialEffect {
     public Kobold() {
-        super(200, 40, 200, 60, "Kobold", 2, "Kobold/idle.gif",800, 1600, 1400);
+        super(200, 40, 200, 60, "Kobold", 2, "Kobold/idle.gif", 800, 1600, 1400);
         getImageView().setFitWidth(150);
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(135);
@@ -32,7 +32,7 @@ public class Kobold extends BaseEnemy implements SpecialEffect {
         }));
         Timeline addEffect = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
             effect.setImage(GameUtils.setImageByPath("Kobold/effect.gif"));
-            if(getState() != UnitState.DEAD) {
+            if (getState() != UnitState.DEAD) {
                 effect.setTranslateX(target.getImageView().getTranslateX() - 190);
                 effect.setTranslateY(target.getImageView().getTranslateY() + 10);
                 GameController.getInstance().getGameMap().getChildren().add(effect);

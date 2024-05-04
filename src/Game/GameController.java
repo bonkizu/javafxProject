@@ -79,6 +79,7 @@ public class GameController {
     public void stopBgm() {
         bgm.stop();
     }
+
     public void startBgm() {
         bgm.play();
     }

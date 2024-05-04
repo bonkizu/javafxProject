@@ -19,6 +19,7 @@ public class Dog extends BaseHero implements SpecialEffect {
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(150);
     }
+
     @Override
     public BaseHero clone() {
         return new Dog();
@@ -34,7 +35,7 @@ public class Dog extends BaseHero implements SpecialEffect {
             GameController.getInstance().getGameMap().getChildren().remove(effect);
         }));
         Timeline addEffect = new Timeline(new KeyFrame(Duration.millis(1500), e -> {
-            if(getState() != UnitState.DEAD) {
+            if (getState() != UnitState.DEAD) {
                 effect.setImage(GameUtils.setImageByPath("Dog/effect.gif"));
                 effect.setTranslateX(target.getImageView().getTranslateX() + 120);
                 effect.setTranslateY(target.getImageView().getTranslateY() - 5);

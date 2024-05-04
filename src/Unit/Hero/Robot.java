@@ -18,6 +18,7 @@ public class Robot extends BaseHero implements SpecialEffect {
         getImageView().setPreserveRatio(true);
         getImageView().setTranslateY(120);
     }
+
     @Override
     public BaseHero clone() {
         return new Robot();
@@ -33,7 +34,7 @@ public class Robot extends BaseHero implements SpecialEffect {
             GameController.getInstance().getGameMap().getChildren().remove(effect);
         }));
         Timeline addEffect = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
-            if(getState() != UnitState.DEAD) {
+            if (getState() != UnitState.DEAD) {
                 effect.setTranslateX(target.getImageView().getTranslateX() + 100);
                 effect.setTranslateY(target.getImageView().getTranslateY() + 10);
                 GameController.getInstance().getGameMap().getChildren().add(effect);

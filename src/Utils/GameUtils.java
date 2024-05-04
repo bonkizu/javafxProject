@@ -9,6 +9,7 @@ public class GameUtils {
         double x2 = unit2.getImageView().getTranslateX() + unit2.getImageView().getFitWidth() / 2;
         return Math.abs(x1 - x2) <= unit1.getRange() * 100;
     }
+
     public static Image setImageByPath(String imagePath) {
         String classLoaderPath = ClassLoader.getSystemResource(imagePath).toString();
         return new Image(classLoaderPath);

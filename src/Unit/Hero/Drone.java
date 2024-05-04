@@ -35,7 +35,7 @@ public class Drone extends BaseHero implements SpecialEffect {
             GameController.getInstance().getGameMap().getChildren().remove(effect);
         }));
         Timeline addEffect = new Timeline(new KeyFrame(Duration.millis(500), e -> {
-            if(getState() != UnitState.DEAD) {
+            if (getState() != UnitState.DEAD) {
                 effect.setImage(GameUtils.setImageByPath("Drone/effect.gif"));
                 effect.setTranslateX(target.getImageView().getTranslateX() + 150);
                 effect.setTranslateY(target.getImageView().getTranslateY() + 2);
