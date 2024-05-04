@@ -3,6 +3,7 @@ package Unit.Hero;
 import Game.GameController;
 import Unit.BaseUnit;
 import Unit.Type.SpecialEffect;
+import Utils.GameUtils;
 import Utils.UnitState;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -34,7 +35,7 @@ public class Dog extends BaseHero implements SpecialEffect {
         }));
         Timeline addEffect = new Timeline(new KeyFrame(Duration.millis(1500), e -> {
             if(getState() != UnitState.DEAD) {
-                effect.setImage(new Image("Dog/effect.gif"));
+                effect.setImage(GameUtils.setImageByPath("Dog/effect.gif"));
                 effect.setTranslateX(target.getImageView().getTranslateX() + 120);
                 effect.setTranslateY(target.getImageView().getTranslateY() - 5);
                 GameController.getInstance().getGameMap().getChildren().add(effect);

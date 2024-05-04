@@ -110,12 +110,18 @@ public abstract class BaseUnit {
     }
 
     public void setImageView(String imageUrl) {
-        if (imageView == null) {
-            imageView = new ImageView(new Image(imageUrl));
-        } else {
-            imageView.setImage(new Image(imageUrl));
+        try {
+            if (imageView == null) {
+                imageView = new ImageView(GameUtils.setImageByPath(imageUrl));
+            } else {
+                imageView.setImage(GameUtils.setImageByPath(imageUrl));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+
     }
+
 
     public UnitState getState() {
         return state;

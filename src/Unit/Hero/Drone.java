@@ -3,6 +3,7 @@ package Unit.Hero;
 import Game.GameController;
 import Unit.BaseUnit;
 import Unit.Type.SpecialEffect;
+import Utils.GameUtils;
 import Utils.UnitState;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -35,7 +36,7 @@ public class Drone extends BaseHero implements SpecialEffect {
         }));
         Timeline addEffect = new Timeline(new KeyFrame(Duration.millis(500), e -> {
             if(getState() != UnitState.DEAD) {
-                effect.setImage(new Image("Drone/effect.gif"));
+                effect.setImage(GameUtils.setImageByPath("Drone/effect.gif"));
                 effect.setTranslateX(target.getImageView().getTranslateX() + 150);
                 effect.setTranslateY(target.getImageView().getTranslateY() + 2);
                 GameController.getInstance().getGameMap().getChildren().add(effect);

@@ -1,5 +1,6 @@
 package Game;
 
+import Utils.GameUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -31,7 +32,7 @@ public class Menu extends VBox {
         Pane root = new Pane();
         root.setPrefSize(1280, 720);
 
-        ImageView img = new ImageView(new Image("msBgz.png"));
+        ImageView img = new ImageView(GameUtils.setImageByPath("msBgz.png"));
         img.setFitWidth(1280);
         img.setFitHeight(720);
         root.getChildren().add(img);

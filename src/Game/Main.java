@@ -2,6 +2,7 @@ package Game;
 
 import Map.GameGui;
 import Map.GameMap;
+import Utils.GameUtils;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -14,7 +15,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Menu menu = new Menu(stage);
         stage.setScene(new Scene(menu, 1280, 720));
-        stage.getIcons().add(new Image("padoru.gif"));
+        stage.getIcons().add(GameUtils.setImageByPath("padoru.gif"));
         stage.setTitle("Ranger Line");
         stage.setResizable(false);
         stage.show();

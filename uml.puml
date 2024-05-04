@@ -1,0 +1,247 @@
+@startuml
+class Game.Main {
++ void start(Stage)
++ {static} void main(String[])
+}
+class Map.GameGui {
+- GameMap gameMap
+- Text playerMoney
+- boolean isVolumeOn
+- ImageView volumeImg
++ <<Create>> GameGui()
+- void startCooldownTimer(int,Button)
+- StackPane createHeroSpawner(BaseHero)
++ GameMap getGameMap()
++ void setPlayerMoney(int)
+}
+class Map.GameMap {
++ <<Create>> GameMap()
++ HeroTower createHeroTower()
++ EnemyTower createEnemyTower()
+}
+class Unit.Enemy.FishEye {
++ <<Create>> FishEye()
+}
+class Unit.Hero.Dog {
++ <<Create>> Dog()
++ BaseHero clone()
++ void showEffect(BaseUnit)
+}
+abstract class Unit.BaseUnit {
+- int attack
+- int defense
+- int hp
+- int maxHp
+- int speed
+- String name
+- double range
+- ImageView imageView
+- UnitState state
+- int attackCooldown
+- int attackAnimationTime
+- int deadAnimationTime
++ <<Create>> BaseUnit(int,int,int,int,String,double,String,int,int,int)
++ int getAttack()
++ void setAttack(int)
++ int getDefense()
++ void setDefense(int)
++ int getHp()
++ void setHp(int)
++ int getMaxHp()
++ void setMaxHp(int)
++ int getSpeed()
++ void setSpeed(int)
++ String getName()
++ void setName(String)
++ double getRange()
++ void setRange(double)
++ ImageView getImageView()
++ String getImageUrl()
++ void setImageView(String)
++ UnitState getState()
++ void setState(UnitState)
++ int getAttackCooldown()
++ void setAttackCooldown(int)
++ int getAttackAnimationTime()
++ void setAttackAnimationTime(int)
++ int getDeadAnimationTime()
++ void setDeadAnimationTime(int)
+}
+class Unit.Hero.Robot {
++ <<Create>> Robot()
++ BaseHero clone()
++ void showEffect(BaseUnit)
+}
+class Unit.Enemy.EnemyTower {
++ <<Create>> EnemyTower()
+}
+class Unit.Enemy.Kobold {
++ <<Create>> Kobold()
++ void showEffect(BaseUnit)
+}
+abstract class Unit.Enemy.BaseEnemy {
+- Timeline enemyLogic
+- Timeline enemyMove
+- boolean isCooldown
+- boolean isMoving
++ <<Create>> BaseEnemy(int,int,int,int,String,double,String,int,int,int)
++ void initializeEnemyLogic()
++ void playEnemyLogic()
++ void stopEnemyLogic()
++ void initializeEnemyMove()
++ void move()
++ void stopMoving()
+- void attack()
+- void enemyDestroyed()
+- void setCooldown()
+- void toIdle()
+}
+abstract class Unit.Hero.BaseHero {
+- Timeline heroLogic
+- Timeline heroMove
+- boolean isCooldown
+- boolean isMoving
+# int cooldown
+# int cost
++ <<Create>> BaseHero(int,int,int,int,int,int,String,double,String,int,int,int)
++ {abstract}BaseHero clone()
++ void initializeHeroLogic()
++ void playHeroLogic()
++ void stopHeroLogic()
++ void initializeHeroMove()
++ void move()
++ void stopMoving()
+- void attack()
+- void setCooldown()
+- void toIdle()
+- void heroDestroyed()
++ int getCooldown()
++ void setCooldown(int)
++ int getCost()
++ void setCost(int)
+}
+class Game.Menu {
+- {static} Stage primaryStage
+- {static} Menu instance
++ <<Create>> Menu(Stage)
++ void startNewGame()
++ {static} Menu getInstance()
+}
+class Unit.Hero.Drone {
++ <<Create>> Drone()
++ BaseHero clone()
++ void showEffect(BaseUnit)
+}
+class Game.MenuItem {
++ <<Create>> MenuItem(String,Runnable)
+}
+class Unit.Enemy.Soulyer {
++ <<Create>> Soulyer()
+}
+interface Unit.Type.Attackable {
+~ void attack(BaseUnit)
+}
+interface Unit.Type.SpecialEffect {
+~ void showEffect(BaseUnit)
+}
+class Unit.Enemy.Rat {
++ <<Create>> Rat()
+}
+class Game.GameController {
++ {static} GameController instance
+- GameGui gameGui
+- GameMap gameMap
+- ArrayList<BaseEnemy> enemies
+- ArrayList<BaseHero> heroes
++ {static} HeroTower heroTower
++ {static} EnemyTower enemyTower
+- Timeline enemySpawn
+- Timeline gameOver
+- int money
+- int income
+- AudioClip bgm
+- boolean isGameOver
++ <<Create>> GameController()
++ boolean isGameOver()
++ void setGameOver(boolean)
+- void setUpBgm()
++ void stopBgm()
++ void startBgm()
+- void startMoneySpawn()
++ GameGui getGameGui()
++ GameMap getGameMap()
+- void startEnemySpawn()
+- void checkGameOver()
++ StackPane generateGameOverPane()
++ {static} GameController getInstance()
++ void spawn(BaseHero)
++ void spawn(BaseEnemy)
++ ArrayList<BaseEnemy> getEnemies()
++ ArrayList<BaseHero> getHeroes()
++ int getMoney()
++ void setMoney(int)
++ void decreaseMoney(int)
++ void increaseMoney(int)
++ int getIncome()
++ void setIncome(int)
++ void reset()
+}
+class Unit.Hero.Spider {
++ <<Create>> Spider()
++ BaseHero clone()
+}
+class Game.MenuBox {
++ <<Create>> MenuBox(MenuItem)
+}
+enum Utils.UnitState {
++  IDLE
++  RUNNING
++  ATTACKING
++  DEAD
+}
+class Unit.Enemy.NightWar {
++ <<Create>> NightWar()
+}
+interface Unit.Type.Healable {
+~ void heal()
+}
+class Unit.Hero.HeroTower {
++ <<Create>> HeroTower()
++ BaseHero clone()
+}
+class Unit.Hero.Golem {
++ <<Create>> Golem()
++ BaseHero clone()
++ void showEffect(BaseUnit)
+}
+class Utils.GameUtils {
++ {static} boolean inRange(BaseUnit,BaseUnit)
+}
+
+
+javafx.application.Application <|-- Game.Main
+Map.StackPane <|-- Map.GameGui
+javafx.scene.layout.GridPane <|-- Map.GameMap
+Unit.Enemy.BaseEnemy <|-- Unit.Enemy.FishEye
+Unit.Type.SpecialEffect <|.. Unit.Hero.Dog
+Unit.Hero.BaseHero <|-- Unit.Hero.Dog
+Unit.Type.SpecialEffect <|.. Unit.Hero.Robot
+Unit.Hero.BaseHero <|-- Unit.Hero.Robot
+Unit.Enemy.BaseEnemy <|-- Unit.Enemy.EnemyTower
+Unit.Type.SpecialEffect <|.. Unit.Enemy.Kobold
+Unit.Enemy.BaseEnemy <|-- Unit.Enemy.Kobold
+Unit.BaseUnit <|-- Unit.Enemy.BaseEnemy
+Unit.BaseUnit <|-- Unit.Hero.BaseHero
+Game.VBox <|-- Game.Menu
+Unit.Type.SpecialEffect <|.. Unit.Hero.Drone
+Unit.Hero.BaseHero <|-- Unit.Hero.Drone
+javafx.scene.layout.StackPane <|-- Game.MenuItem
+Unit.Enemy.BaseEnemy <|-- Unit.Enemy.Soulyer
+Unit.Enemy.BaseEnemy <|-- Unit.Enemy.Rat
+Unit.Hero.BaseHero <|-- Unit.Hero.Spider
+javafx.scene.layout.VBox <|-- Game.MenuBox
+Unit.Enemy.BaseEnemy <|-- Unit.Enemy.NightWar
+Unit.Hero.BaseHero <|-- Unit.Hero.HeroTower
+Unit.Type.SpecialEffect <|.. Unit.Hero.Golem
+Unit.Hero.BaseHero <|-- Unit.Hero.Golem
+@enduml

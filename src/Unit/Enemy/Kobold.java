@@ -4,6 +4,7 @@ import Game.GameController;
 import Unit.BaseUnit;
 import Unit.Enemy.BaseEnemy;
 import Unit.Type.SpecialEffect;
+import Utils.GameUtils;
 import Utils.UnitState;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -30,7 +31,7 @@ public class Kobold extends BaseEnemy implements SpecialEffect {
             GameController.getInstance().getGameMap().getChildren().remove(effect);
         }));
         Timeline addEffect = new Timeline(new KeyFrame(Duration.millis(1000), e -> {
-            effect.setImage(new Image("Kobold/effect.gif"));
+            effect.setImage(GameUtils.setImageByPath("Kobold/effect.gif"));
             if(getState() != UnitState.DEAD) {
                 effect.setTranslateX(target.getImageView().getTranslateX() - 190);
                 effect.setTranslateY(target.getImageView().getTranslateY() + 10);

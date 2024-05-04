@@ -4,6 +4,7 @@ import Game.GameController;
 import Unit.BaseUnit;
 import Unit.Enemy.BaseEnemy;
 import Unit.Type.SpecialEffect;
+import Utils.GameUtils;
 import Utils.UnitState;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
@@ -31,7 +32,7 @@ public class Golem extends BaseHero implements SpecialEffect {
 
     @Override
     public void showEffect(BaseUnit target) {
-        ImageView effect = new ImageView(new Image("Golem/effect.gif"));
+        ImageView effect = new ImageView(GameUtils.setImageByPath("Golem/effect.gif"));
         effect.setFitWidth(150);
         effect.setPreserveRatio(true);
 

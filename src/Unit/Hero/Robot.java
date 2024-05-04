@@ -3,6 +3,7 @@ package Unit.Hero;
 import Game.GameController;
 import Unit.BaseUnit;
 import Unit.Type.SpecialEffect;
+import Utils.GameUtils;
 import Utils.UnitState;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -24,7 +25,7 @@ public class Robot extends BaseHero implements SpecialEffect {
 
     @Override
     public void showEffect(BaseUnit target) {
-        ImageView effect = new ImageView(new Image("Robot/effect.gif"));
+        ImageView effect = new ImageView(GameUtils.setImageByPath("Robot/effect.gif"));
         effect.setFitWidth(300);
         effect.setFitHeight(120);
 

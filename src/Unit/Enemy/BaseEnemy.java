@@ -121,7 +121,7 @@ public abstract class BaseEnemy extends BaseUnit {
     private void enemyDestroyed() {
         GameController.getInstance().getEnemies().remove(this);
         if (!getName().equals("EnemyTower")) {
-            getImageView().setImage(new Image(getName() + "/dead.gif"));
+            getImageView().setImage(GameUtils.setImageByPath(getName() + "/dead.gif"));
             Timeline delete = new Timeline(new KeyFrame(Duration.millis(getDeadAnimationTime()), e -> {
                 GameController.getInstance().getGameMap().getChildren().remove(getImageView());
             }));

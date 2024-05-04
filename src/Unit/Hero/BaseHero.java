@@ -144,7 +144,7 @@ public abstract class BaseHero extends BaseUnit {
     private void heroDestroyed() {
         GameController.getInstance().getHeroes().remove(this);
         if (!getName().equals("HeroTower")) {
-            getImageView().setImage(new Image(getName() + "/dead.gif"));
+            getImageView().setImage(GameUtils.setImageByPath(getName() + "/dead.gif"));
             Timeline delete = new Timeline(new KeyFrame(Duration.millis(getDeadAnimationTime()), e -> {
                 GameController.getInstance().getGameMap().getChildren().remove(getImageView());
             }));

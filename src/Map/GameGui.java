@@ -2,6 +2,7 @@ package Map;
 
 import Game.GameController;
 import Unit.Hero.*;
+import Utils.GameUtils;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -30,7 +31,7 @@ public class GameGui extends StackPane {
         setPrefHeight(720);
         setPrefWidth(1280);
 
-        ImageView coin = new ImageView("coin.png");
+        ImageView coin = new ImageView(GameUtils.setImageByPath("coin.png"));
         coin.setFitHeight(30);
         coin.setPreserveRatio(true);
         HBox moneyBox = new HBox(10);
@@ -67,7 +68,7 @@ public class GameGui extends StackPane {
         scrollPane.setPannable(true);
         scrollPane.setCursor(Cursor.DEFAULT);
 
-        ImageView bg = new ImageView("BG.png");
+        ImageView bg = new ImageView(GameUtils.setImageByPath("BG.png"));
         setAlignment(bg, Pos.TOP_CENTER);
         bg.setFitHeight(470);
         bg.setFitWidth(2000);
@@ -76,7 +77,7 @@ public class GameGui extends StackPane {
         setAlignment(heroesPanel, Pos.BOTTOM_CENTER);
         setMargin(heroesPanel, new Insets(10, 10, 50, 10));
 
-        volumeImg = new ImageView(new Image("volume-up.png"));
+        volumeImg = new ImageView(GameUtils.setImageByPath("volume-up.png"));
         volumeImg.setOnMouseClicked(event -> {
             if (!GameController.getInstance().isGameOver()) {
                 if (isVolumeOn) {
@@ -86,7 +87,7 @@ public class GameGui extends StackPane {
                 }
             }
             isVolumeOn = !isVolumeOn;
-            volumeImg.setImage(new Image(isVolumeOn ? "volume-up.png" : "volume-down.png"));
+            volumeImg.setImage(GameUtils.setImageByPath(isVolumeOn ? "volume-up.png" : "volume-down.png"));
         });
         volumeImg.setFitWidth(50);
         volumeImg.setFitHeight(50);

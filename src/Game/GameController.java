@@ -5,6 +5,7 @@ import Map.GameMap;
 import Unit.Enemy.*;
 import Unit.Hero.BaseHero;
 import Unit.Hero.HeroTower;
+import Utils.GameUtils;
 import Utils.UnitState;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -169,12 +170,12 @@ public class GameController {
                     }
                     hero.stopHeroLogic();
                     hero.stopMoving();
-                    hero.getImageView().setImage(new Image(hero.getName() + "/idle.gif"));
+                    hero.getImageView().setImage(GameUtils.setImageByPath(hero.getName() + "/idle.gif"));
                 }
                 if (heroTower.getHp() <= 0)
-                    heroTower.getImageView().setImage(new Image(heroTower.getName() + "/dead.gif"));
+                    heroTower.getImageView().setImage(GameUtils.setImageByPath(heroTower.getName() + "/dead.gif"));
                 else {
-                    enemyTower.getImageView().setImage(new Image(enemyTower.getName() + "/dead.gif"));
+                    enemyTower.getImageView().setImage(GameUtils.setImageByPath(enemyTower.getName() + "/dead.gif"));
                 }
 
                 StackPane gameOverPane = generateGameOverPane();
