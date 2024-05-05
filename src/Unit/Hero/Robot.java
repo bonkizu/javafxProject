@@ -14,14 +14,18 @@ import javafx.util.Duration;
 public class Robot extends BaseHero implements SpecialEffect {
     public Robot() {
         super(600, 100, 2000, 20, 500, 500, "Robot", 2.8, "Robot/idle.gif", 2000, 1600, 2000);
-        getImageView().setFitWidth(300);
+        getImageView().setFitWidth(150);
         getImageView().setPreserveRatio(true);
-        getImageView().setTranslateY(120);
+        getImageView().setTranslateY(0);
     }
 
     @Override
     public BaseHero clone() {
-        return new Robot();
+        Robot robot = new Robot();
+        robot.getImageView().setFitWidth(300);
+        robot.getImageView().setPreserveRatio(true);
+        robot.getImageView().setTranslateY(120);
+        return robot;
     }
 
     @Override

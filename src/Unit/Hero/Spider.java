@@ -13,13 +13,18 @@ public class Spider extends BaseHero {
 
     public Spider() {
         super(200, 50, 300, 60, 150, 500, "Spider", 0.9, "Spider/idle.gif", 500, 1600, 1800);
-        getImageView().setFitWidth(150);
+        getImageView().setFitWidth(120);
         getImageView().setPreserveRatio(true);
-        getImageView().setTranslateY(135);
+        getImageView().setTranslateY(-10);
+        getImageView().setTranslateX(15);
     }
 
     @Override
     public BaseHero clone() {
-        return new Spider();
+        Spider spider = new Spider();
+        spider.getImageView().setFitWidth(150);
+        spider.getImageView().setPreserveRatio(true);
+        spider.getImageView().setTranslateY(135);
+        return spider;
     }
 }

@@ -12,17 +12,20 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 public class Dog extends BaseHero implements SpecialEffect {
-
     public Dog() {
         super(600, 90, 800, 40, 350, 500, "Dog", 1.5, "Dog/idle.gif", 1000, 1600, 1800);
-        getImageView().setFitWidth(200);
+        getImageView().setFitWidth(120);
         getImageView().setPreserveRatio(true);
-        getImageView().setTranslateY(150);
+        getImageView().setTranslateY(0);
     }
 
     @Override
     public BaseHero clone() {
-        return new Dog();
+        Dog dog = new Dog();
+        dog.getImageView().setFitWidth(200);
+        dog.getImageView().setPreserveRatio(true);
+        dog.getImageView().setTranslateY(150);
+        return dog;
     }
 
     @Override

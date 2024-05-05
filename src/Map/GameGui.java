@@ -109,9 +109,6 @@ public class GameGui extends StackPane {
 
     private StackPane createHeroSpawner(BaseHero hero) {
         StackPane stackPane = new StackPane();
-        ImageView imageView = new ImageView(hero.getImageUrl());
-        imageView.setFitWidth(120);
-        imageView.setPreserveRatio(true);
         stackPane.setBackground(Background.fill(Color.ORANGE));
         stackPane.setStyle("-fx-border-color: black; -fx-border-width: 5px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-background-color: rgba(255, 153, 102,  0.5);");
         Button button = new Button();
@@ -133,7 +130,7 @@ public class GameGui extends StackPane {
             }
         });
 
-        stackPane.getChildren().addAll(imageView, button);
+        stackPane.getChildren().addAll(hero.getImageView(), button);
         return stackPane;
     }
 
