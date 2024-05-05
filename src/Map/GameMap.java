@@ -2,6 +2,9 @@ package Map;
 
 import Unit.Enemy.EnemyTower;
 import Unit.Hero.HeroTower;
+import Utils.GameUtils;
+import javafx.geometry.Pos;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -13,8 +16,12 @@ public class GameMap extends GridPane {
         setPrefHeight(720);
         setPrefWidth(2000);
         setBackground(Background.fill(Color.DIMGRAY));
-//        setStyle("-fx-background-image: url('BG.png');" +
-//                "-fx-background-size: cover;");
+
+        ImageView bg = new ImageView(GameUtils.setImageByPath("BG.png"));
+        setAlignment(Pos.TOP_CENTER);
+        bg.setFitHeight(470);
+        bg.setFitWidth(2000);
+        getChildren().add(bg);
     }
 
     public HeroTower createHeroTower() {
