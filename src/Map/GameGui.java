@@ -131,7 +131,7 @@ public class GameGui extends StackPane {
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (!button.isDisabled() && GameController.getInstance().getMoney() >= hero.getCost()) {
+                if (!button.isDisabled() && GameController.getInstance().getMoney() >= hero.getCost() && !GameController.getInstance().isGameOver()) {
                     GameController.getInstance().decreaseMoney(hero.getCost());
                     GameController.getInstance().spawn(hero.clone());
                     startCooldownTimer(hero.getCooldown(), button);

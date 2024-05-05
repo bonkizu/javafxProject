@@ -71,7 +71,7 @@ public class GameController {
 
     private void setUpBgm() {
         bgm = new AudioClip(ClassLoader.getSystemResource("bgm.mp3").toString());
-        bgm.setVolume(0.5);
+        bgm.setVolume(0.1);
         bgm.setCycleCount(AudioClip.INDEFINITE);
         startBgm();
     }
