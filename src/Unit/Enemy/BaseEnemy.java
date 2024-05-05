@@ -3,7 +3,6 @@ package Unit.Enemy;
 import Game.GameController;
 import Unit.BaseUnit;
 import Unit.Hero.BaseHero;
-import Unit.Type.Attackable;
 import Unit.Type.SpecialEffect;
 import Utils.GameUtils;
 import Utils.UnitState;
